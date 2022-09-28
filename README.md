@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# Moview Forum Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is frontend of Moview Forum.
+
+> node version 18
 
 ## Available Scripts
 
