@@ -4,9 +4,42 @@ This project is frontend of Moview Forum.
 
 > node version 18
 
+## Explain pull request flow
+
+Development work flow https://zora.atlassian.net/jira/software/projects/MOVIEW/pages
+
+### Create branch (check details from Development work flow)
+
+- The local develop branch needs to be synchronized with the remote first
+- First of all, create a branch by clicking the ticket by opening the Jira task board and selecting Development: Create branch on the right or create a branch under the Bitbucket Moview Frontend project
+- Only write the code under the branch you created, not to develop or master branch
+- Regularly git rebase the latest develop branch (to avoid a series of problems caused by too many conflicts later)
+
+### What script must be run before create pull request
+
+- `git rebase`  
+  rebase your branch. Rebasing is required if any new pull requests were merged after you had taken the feature branch. After rebasing, any conflicts that arise need to be resolved, and the code needs to be pushed back to the remote branch.
+- `npm run format`
+  Modify the non-standard problem of local code automatically
+- `npm run lint`
+  Find code errors that still exist and fix them manually until there are no errors
+- `git commit -m`
+  Commit code in your feature branch, and use right format for commit message
+
+### When create pull request
+
+- Please check the diff carefully when you pull request, and solve the conflict
+- In the pull request Description, please describe the pull request feature/modification correctly
+- In the pull request, please try to attach screenshots, so that code reviewers can understand
+- Please make a pull request only after everything has been checked
+
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm install`
+
+Install all packages needed for this project.
 
 ### `npm start`
 
