@@ -57,7 +57,7 @@
     "prettier": "2.7.1"
   },
   "lint-staged": {
-    "*.{js,jsx}": "eslint --fix",
+    "*.{js,jsx}": "eslint --fix --rule 'no-console:error'",
     "*.{js,jsx,css,md,html,json}": "prettier --write"
   },
   "resolutions": {
