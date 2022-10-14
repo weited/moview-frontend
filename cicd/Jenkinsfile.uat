@@ -1,0 +1,71 @@
+pipeline {
+	agent {
+		docker {
+			image 'node:18.0.0'
+			args '-u root:root'
+		}
+	}
+
+	environment {
+		//aws environment
+		S3_REGION               = 'ap-southeast-2'
+		WORKSPACE_PATH          = '/var/lib/jenkins/workspace/frontend-uat/build' 
+		BUCKET_NAME             = 's3://uat.moviewforum.com'
+		CLOUDFRONT_ID           = 'E35CXRGGO5DJMF'
+	}
+
+	stages {
+		stage('Install Aws CLI') {
+			steps {
+				sh 'apt-get update'
+				sh 'apt install python3-pip -y'
+				sh 'pip3 install awscli --upgrade'
+			}
+		}
+		
+		stage('Install packages') {
+			steps {
+				echo 'Installing packages ...'
+				sh 'yarn install'
+			}
+		}
+
+		stage('Yarn Build') {
+			steps {
+				echo 'Building the application ...'
+				sh 'yarn run build'
+			}
+		}
+		
+		stage('AWS - Deploy to AWS S3 and invalidation'){
+			steps {
+				withAWS(credentials: 'jenkins_aws', region: 'ap-southeast-2') {
+					sh "aws configure set region ${S3_REGION}"
+					sh "aws s3 rm ${BUCKET_NAME} --recursive"
+					sh "aws s3 cp ${WORKSPACE_PATH} ${BUCKET_NAME} --recursive"
+					sh "aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths '/*'"
+				}
+			}
+		}
+	}
+
+	post {
+		always {
+			cleanWs(cleanWhenNotBuilt: true,
+				deleteDirs: true,
+				disableDeferredWipeout: true,
+				notFailBuild: true,
+				patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+				[pattern: '.propsfile', type: 'EXCLUDE']]
+			)}
+		success {
+			echo "WELL DONE!"
+			bitbucketStatusNotify(buildState: 'SUCCESSFUL')
+		}
+		failure {
+			echo "FAILED"
+			bitbucketStatusNotify(buildState: 'FAILED')
+		}
+	}
+}
+

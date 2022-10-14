@@ -1,0 +1,101 @@
+pipeline {
+	agent {
+		docker {
+			image 'node:18.0.0'
+			args '-u root:root'
+		}
+	}
+
+	environment {
+		//azure environment
+		AZURE_STORAGE_ACCOUNT   = "moviewfrontend"
+		JOB_NAME                = '$web'
+		RESOURCE_GROUP          = 'MoView-Frontend'
+		PROFILE_NAME            = 'cdnprofile'
+		ENDPOINT_NAME           = 'moview'
+		//aws environment
+		S3_REGION               = 'ap-southeast-2'
+		WORKSPACE_PATH          = '/var/lib/jenkins/workspace/frontend-prod/build' 
+		BUCKET_NAME             = 's3://moviewforum.com'
+		CLOUDFRONT_ID           = 'E35CXRGGO5DJMF'
+	}
+
+	stages {
+		stage('Install Azure & Aws CLI') {
+			steps {
+				sh 'apt-get update'
+				sh 'apt install python3-pip -y'
+				sh 'pip3 install azure-cli --upgrade'
+				sh 'pip3 install awscli --upgrade'
+			}
+		}
+		
+		stage('Install packages') {
+			steps {
+				echo 'Installing packages ...'
+				sh 'yarn install'
+			}
+		}
+
+		stage('Yarn Build') {
+			steps {
+				echo 'Building the application ...'
+				sh 'yarn run build'
+			}
+		}
+		
+		stage('AWS - Deploy to AWS S3 and invalidation'){
+			steps {
+				withAWS(credentials: 'jenkins_aws', region: 'ap-southeast-2') {
+					sh "aws configure set region ${S3_REGION}"
+					sh "aws s3 rm ${BUCKET_NAME} --recursive"
+					sh "aws s3 cp ${WORKSPACE_PATH} ${BUCKET_NAME} --recursive"
+					sh "aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths '/*'"
+				}
+			}
+		}
+
+		stage('Azure - upload file and purge') {
+			steps {
+				withCredentials([azureServicePrincipal(
+								credentialsId: 'azure-moview',
+								subscriptionIdVariable: 'ARM_SUBSCRIPTION_ID',
+								clientIdVariable: 'ARM_CLIENT_ID',
+								clientSecretVariable: 'ARM_CLIENT_SECRET',
+								tenantIdVariable: 'ARM_TENANT_ID')]){
+					sh '''
+					echo $container_name
+					# Login to Azure with ServicePrincipal
+					az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET -t $ARM_TENANT_ID
+					# Set default subscription
+					az account set --subscription $ARM_SUBSCRIPTION_ID
+					# Execute upload to Azure
+					az storage blob upload-batch --destination ${JOB_NAME} --source ./build --account-name $AZURE_STORAGE_ACCOUNT --overwrite
+					# Purge the endpoint
+					az cdn endpoint purge --name $ENDPOINT_NAME --resource-group $RESOURCE_GROUP --profile-name $PROFILE_NAME --content-paths '/*'
+					'''
+				}
+			}
+		}
+	}
+
+	post {
+		always {
+			cleanWs(cleanWhenNotBuilt: true,
+				deleteDirs: true,
+				disableDeferredWipeout: true,
+				notFailBuild: true,
+				patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+				[pattern: '.propsfile', type: 'EXCLUDE']]
+			)}
+		success {
+			echo "WELL DONE!"
+			bitbucketStatusNotify(buildState: 'SUCCESSFUL')
+		}
+		failure {
+			echo "FAILED"
+			bitbucketStatusNotify(buildState: 'FAILED')
+		}
+	}
+}
+
