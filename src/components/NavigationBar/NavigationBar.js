@@ -9,7 +9,9 @@ import Logo from '../Logo/Logo';
 const Container = styled.div(
   ({ theme }) => `
   padding: 20px 20px 20px 10px;
-  background-color: ${theme.palette.primary.background_gray};
+  // background-color: ${theme.palette.primary.background_gray};
+  // TO DO: will change according to design
+  box-shadow: 0px 5px 5px ${theme.palette.primary.background_gray};
   color: ${theme.palette.primary.text_light_gray};
   width: 100%;
   display: flex;

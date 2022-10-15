@@ -1,0 +1,20 @@
+import styled from 'styled-components';
+
+const Container = styled.div`
+  background-color: ${(props) => props.theme.palette.secondary.background_light_gray};
+  border-radius: 10px;
+  width: 100px;
+  padding: 20px;
+  margin: 10px;
+  @media (min-width: ${(props) => props.theme.breakpoints.tablet}) {
+    width: 150px;
+  }
+  @media (min-width: ${(props) => props.theme.breakpoints.laptop}) {
+    width: 300px;
+  }
+  @media (min-width: ${(props) => props.theme.breakpoints.desktop}) {
+    width: 400px;
+  }
+`;
+
+export default Container;

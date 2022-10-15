@@ -6,11 +6,13 @@ const theme = createTheme({
     primary: {
       main: '#5E5962', // TODO: change to our design
       background_gray: '#7E7F81',
+      background_light_gray: '#F1F1F1',
       background_dark_gray: '#464249',
       text_light_gray: '#EDEDED',
     },
     secondary: {
       main: '#edf2ff',
+      background_light_gray: '#E3E3E3',
     },
   },
   breakpoints: {
