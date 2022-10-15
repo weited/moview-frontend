@@ -7,12 +7,6 @@ const initialState = {
   error: null,
 };
 
-// TO DO: need to be delete later
-export const fetchAllComments = createAsyncThunk('comment/fetchAllComments', async () => {
-  const res = await CommentService.getAll();
-  return res.data;
-});
-
 export const getCommentsByPostId = createAsyncThunk(
   'comment/getCommentsByPostId',
   async (postId) => {
@@ -35,17 +29,6 @@ export const commentSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAllComments.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchAllComments.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.commentList = action.payload;
-      })
-      .addCase(fetchAllComments.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      })
       .addCase(getCommentsByPostId.pending, (state) => {
         state.status = 'loading';
       })
