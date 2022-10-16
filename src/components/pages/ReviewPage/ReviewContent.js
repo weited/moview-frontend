@@ -4,9 +4,7 @@ import Comment from '../../Comment/Comment';
 import ReviewDetail from './ReviewDetail';
 
 const Container = styled.div`
-  flex-grow: 1;
-  @media (min-width: ${(props) => props.theme.breakpoints.tablet}) {
-  }
+  width: 55%;
 `;
 
 function ReviewContent() {

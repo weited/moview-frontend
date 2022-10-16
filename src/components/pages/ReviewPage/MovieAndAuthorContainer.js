@@ -10,10 +10,10 @@ const Container = styled.div`
     width: 150px;
   }
   @media (min-width: ${(props) => props.theme.breakpoints.laptop}) {
-    width: 300px;
+    width: 280px;
   }
   @media (min-width: ${(props) => props.theme.breakpoints.desktop}) {
-    width: 400px;
+    width: 340px;
   }
 `;
 
