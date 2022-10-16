@@ -12,7 +12,6 @@ const Container = styled.div`
   padding-left: 40%;
   margin-bottom: 40px;
   @media (min-width: ${(props) => props.theme.breakpoints.tablet}) {
-    //   padding: 40px 40px 40px 10px;
   }
 `;
 

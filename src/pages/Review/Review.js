@@ -1,10 +1,10 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import ReviewTitle from './components/ReviewTitle';
-import MovieCard from '../../components/page/Review/MovieCard';
-import AuthorCard from '../../components/page/Review/AuthorCard';
-import ReviewContent from './components/ReviewContent';
+import ReviewTitle from '../../components/pages/ReviewPage/ReviewTitle';
+import MovieCard from '../../components/pages/ReviewPage/MovieCard';
+import AuthorCard from '../../components/pages/ReviewPage/AuthorCard';
+import ReviewContent from '../../components/pages/ReviewPage/ReviewContent';
 
 const Container = styled.div`
   background-color: ${(props) => props.theme.palette.primary.background_light_gray};

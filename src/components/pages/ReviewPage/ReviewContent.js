@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Comment from '../../../components/page/Review/Comment';
-import ReviewDetail from '../../../components/page/Review/ReviewDetail';
+import Comment from '../../Comment/Comment';
+import ReviewDetail from './ReviewDetail';
 
 const Container = styled.div`
   flex-grow: 1;
