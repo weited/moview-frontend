@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import BackgroundLetterAvatars from '../LetterAvatar';
 
 const Container = styled.div`
   width: 100%;
@@ -35,7 +36,10 @@ function Comment() {
     <Container>
       <Title>5 Comments</Title>
       <CommentContainer>
-        <SingleComment>this is a comment</SingleComment>
+        <SingleComment>
+          <BackgroundLetterAvatars />
+          this is a comment
+        </SingleComment>
         <SingleComment>this is a comment</SingleComment>
       </CommentContainer>
     </Container>
