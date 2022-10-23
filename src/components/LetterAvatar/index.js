@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-// import Stack from '@mui/material/Stack';
+import PropTypes from 'prop-types';
 
 function stringToColor(string) {
   let hash = 0;
@@ -32,13 +32,34 @@ function stringAvatar(name) {
   };
 }
 
-export default function LetterAvatars() {
-  return (
-    <>
-      {' '}
-      <Avatar {...stringAvatar('Kent Dodds')} />
-      <Avatar {...stringAvatar('Jed Watson')} />
-    </>
-    // <Stack direction="row" spacing={2}>1
+export default function LetterAvatars({ firstName, lastName, url }) {
+  return url ? (
+    <Avatar
+      alt={`${firstName} ${lastName}`}
+      src={url}
+      sx={{
+        width: { xs: 30, sm: 40 },
+        height: { xs: 30, sm: 40 },
+      }}
+    />
+  ) : (
+    <Avatar
+      alt={`${firstName} ${lastName}`}
+      sx={{
+        width: { xs: 30, sm: 40 },
+        height: { xs: 30, sm: 40 },
+      }}
+      {...stringAvatar(`${firstName} ${lastName}`)}
+    />
   );
 }
+
+LetterAvatars.propTypes = {
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  url: PropTypes.string,
+};
+
+LetterAvatars.defaultProps = {
+  url: '',
+};

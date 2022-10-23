@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = () => {
+const baseURLGenerator = () => {
   const url = process.env.REACT_APP_BASE_URL || 'http://localhost:8080/api/v1';
   // const env = process.env.NODE_ENV;
   // let url = process.env.REACT_APP_BASE_URL;
@@ -20,7 +20,7 @@ const baseURL = () => {
   // }
   return url;
 };
-
+const baseURL = baseURLGenerator();
 const http = axios.create({
   baseURL,
   timeout: 5 * 1000,
