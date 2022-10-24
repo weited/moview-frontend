@@ -8,7 +8,10 @@ const theme = createTheme({
       background_gray: '#7E7F81',
       background_light_gray: '#F1F1F1',
       background_dark_gray: '#464249',
+      background_light_yellow: '#F8F8F8',
       text_light_gray: '#EDEDED',
+      signin_register_light_purple: '#696784',
+      register_password_blue: '#227ACA',
     },
     secondary: {
       main: '#edf2ff',
