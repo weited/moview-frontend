@@ -6,7 +6,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 
-const Container = styled.div(
+const Container = styled.header(
   ({ theme }) => `
   padding: 20px 20px 20px 10px;
   // background-color: ${theme.palette.primary.background_gray};
@@ -39,21 +39,19 @@ export default function NavigationBar() {
   const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
   return (
-    <div>
-      <Container>
-        <Logo />
-        <Box
-          sx={{
-            width: { xs: '40%', sm: '55%' },
-          }}
-        >
-          <TextField fullWidth id="outlined-basic" label="" variant="outlined" />
-        </Box>
-        <UserInfo onClick={() => isLogin || navigate('/login')}>
-          {isLogin ? 'User Name' : 'Sign in'}
-        </UserInfo>
-        <AccountCircleIcon sx={{ fontSize: { sm: 50, lg: 75 }, color: '#D0D0D0' }} />
-      </Container>
-    </div>
+    <Container>
+      <Logo />
+      <Box
+        sx={{
+          width: { xs: '40%', sm: '55%' },
+        }}
+      >
+        <TextField fullWidth id="outlined-basic" label="" variant="outlined" />
+      </Box>
+      <UserInfo onClick={() => isLogin || navigate('/login')}>
+        {isLogin ? 'User Name' : 'Sign in'}
+      </UserInfo>
+      <AccountCircleIcon sx={{ fontSize: { sm: 50, lg: 75 }, color: '#D0D0D0' }} />
+    </Container>
   );
 }

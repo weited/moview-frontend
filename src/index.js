@@ -5,6 +5,7 @@ import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import store from './redux/store';
 import theme from './theme';
+import GlobalStyle from './theme/globalStyles';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -16,6 +17,7 @@ root.render(
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          <GlobalStyle />
           <App />
         </ThemeProvider>
       </StyledEngineProvider>
