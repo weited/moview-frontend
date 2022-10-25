@@ -1,17 +1,15 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
 import MovieGallery from '../../components/MovieGallery/MovieGallery';
-
-const Main = styled('main')({
-  height: '100%',
-  paddingTop: '40px',
-});
+import Category from '../../components/Category/Category';
+import MovieSwiper from '../../components/MovieSwiper/MovieSwiper';
 
 function HomePage() {
   return (
-    <Main>
+    <>
+      <Category />
+      <MovieSwiper />
       <MovieGallery />
-    </Main>
+    </>
   );
 }
 
