@@ -12,6 +12,7 @@ import {
 import { styled } from '@mui/material/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
+import { useNavigate } from 'react-router-dom';
 
 const Section = styled('section')({
   width: '80%',
@@ -30,6 +31,7 @@ const Card = styled(MuiCard)(() => ({
   height: '300px',
   display: 'flex',
   flexDirection: 'row',
+  cursor: 'pointer',
 }));
 
 const CardMedia = styled(MuiCardMedia)(() => ({
@@ -87,6 +89,8 @@ const cards = [
 ];
 
 export default function PopularReview() {
+  const navigate = useNavigate();
+
   return (
     <Section>
       <Heading variant="h4">Popular Reviews</Heading>
@@ -94,7 +98,7 @@ export default function PopularReview() {
         <Grid container spacing={4}>
           {cards.map((card) => (
             <Grid item key={card} xs={12} sm={6} md={6}>
-              <Card>
+              <Card onClick={() => navigate('/review/1')}>
                 <CardMedia image={card.img} title="Image title" />
                 <CardContent>
                   <Typography>{card.desc}</Typography>

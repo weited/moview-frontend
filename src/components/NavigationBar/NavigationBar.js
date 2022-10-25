@@ -45,7 +45,7 @@ export default function NavigationBar() {
   const isHomePage = path.pathname === '/';
   return (
     <Container isHomePage={isHomePage}>
-      <Logo />
+      <Logo onClick={() => navigate('/')} />
       <Box
         sx={{
           width: { xs: '40%', sm: '55%' },

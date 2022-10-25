@@ -9,6 +9,7 @@ const Logo = styled.img.attrs({
   display: block;
   object-fit: cover;
   border-radius: 10px;
+  cursor: pointer;
   @media (min-width: ${(props) => props.theme.breakpoints.tablet}) {
     width: 135px;
     height: 60px;
