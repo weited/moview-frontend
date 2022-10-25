@@ -7,8 +7,8 @@ import AuthorCard from '../../components/pages/ReviewPage/AuthorCard';
 import ReviewContent from '../../components/pages/ReviewPage/ReviewContent';
 
 const Container = styled.div`
-  background-color: ${(props) => props.theme.palette.primary.background_light_gray};
-
+  background-color: ${(props) => props.theme.palette.primary.background_light_yellow};
+  min-height: 100vh;
   @media (min-width: ${(props) => props.theme.breakpoints.tablet}) {
   }
 `;

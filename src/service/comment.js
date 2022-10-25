@@ -9,7 +9,7 @@ class CommentService {
 
   static create = (newComment) => http.post('/comments', newComment);
 
-  static update = (commentId, updateComment) => http.patch(`/comments/${commentId}`, updateComment);
+  static update = (commentId, updateComment) => http.put(`/comments/${commentId}`, updateComment);
 
   static delete = (commentId) => http.delete(`/comments/${commentId}`);
 }
