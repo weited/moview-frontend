@@ -8,7 +8,7 @@ pipeline {
 
 	environment {
 		//azure environment
-		AZURE_STORAGE_ACCOUNT   = "moviewfrontend"
+		AZURE_STORAGE_ACCOUNT   = "yourviewfrontend"
 		JOB_NAME                = '$web'
 		RESOURCE_GROUP          = 'MoView-Frontend'
 		PROFILE_NAME            = 'cdnprofile'
