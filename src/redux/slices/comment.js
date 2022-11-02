@@ -45,9 +45,8 @@ export const commentSlice = createSlice({
         state.status = 'loading';
         state.error = null;
       })
-      .addCase(createComments.fulfilled, (state, action) => {
+      .addCase(createComments.fulfilled, (state) => {
         state.status = 'succeeded';
-        state.commentList = action.payload;
       })
       .addCase(createComments.rejected, (state, action) => {
         state.status = 'failed';

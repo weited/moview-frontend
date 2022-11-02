@@ -3,9 +3,8 @@ import styled from 'styled-components';
 import LetterAvatars from '../../LetterAvatar';
 
 const Container = styled.div`
-  width: 100%;
+  text-align: left;
   display: flex;
-  flex-direction: row;
   padding-top: 20px;
   border-radius: 10px;
   @media (min-width: ${(props) => props.theme.breakpoints.tablet}) {
@@ -14,12 +13,12 @@ const Container = styled.div`
 const Content = styled.div`
   margin-left: 15px;
   width: 100%;
+  flex-shrink: 2;
   @media (max-width: ${(props) => props.theme.breakpoints.tablet}) {
   }
 `;
 const Header = styled.header`
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   @media (max-width: ${(props) => props.theme.breakpoints.largeLaptop}) {
