@@ -9,7 +9,6 @@ const Container = styled.div(
     justify-content: center;
     `
 );
-
 const SwiperBox = styled.div(
   ({ theme }) => `
     padding: 15px;
@@ -24,7 +23,6 @@ const SwiperBox = styled.div(
       padding: 30px;
   `
 );
-
 const SwiperCard = styled.div(
   ({ theme }) => `
       padding: 5px;
@@ -45,7 +43,6 @@ const SwiperCard = styled.div(
           padding: 20px;
   `
 );
-
 function MovieSwiper() {
   const movies = [
     {
@@ -72,7 +69,6 @@ function MovieSwiper() {
       movieRate: '9.4',
     },
   ];
-
   return (
     <Container>
       <SwiperBox>
@@ -88,5 +84,4 @@ function MovieSwiper() {
     </Container>
   );
 }
-
 export default MovieSwiper;
