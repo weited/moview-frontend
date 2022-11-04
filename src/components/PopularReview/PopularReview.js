@@ -57,7 +57,7 @@ const cards = [
     time: '22:30',
     date: '10/10/2022',
     comment:
-      'I have watched this awesome movie four times! The characters have become like old friends, thanks to·...',
+      'I have watched this awesome movie four times! The characters have become like old friends, thanks to Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero dolorem fugiat autem, quo beatae ad? Nemo voluptas eos, blanditiis debitis neque adipisci error corporis esse, illo impedit similique fugit at?',
   },
   {
     img: 'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_FMjpg_UX1000_.jpg',

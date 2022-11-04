@@ -31,6 +31,7 @@ export const commentSlice = createSlice({
     builder
       .addCase(getCommentsByPostId.pending, (state) => {
         state.status = 'loading';
+        state.error = null;
       })
       .addCase(getCommentsByPostId.fulfilled, (state, action) => {
         state.status = 'succeeded';
@@ -42,6 +43,7 @@ export const commentSlice = createSlice({
       })
       .addCase(createComments.pending, (state) => {
         state.status = 'loading';
+        state.error = null;
       })
       .addCase(createComments.fulfilled, (state, action) => {
         state.status = 'succeeded';
@@ -53,6 +55,7 @@ export const commentSlice = createSlice({
       })
       .addCase(deleteComments.pending, (state) => {
         state.status = true;
+        state.error = null;
       })
       .addCase(deleteComments.fulfilled, (state) => {
         state.status = false;

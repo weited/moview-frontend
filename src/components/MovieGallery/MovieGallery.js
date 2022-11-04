@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { styled } from '@mui/material/styles';
 import MuiGrid from '@mui/material/Unstable_Grid2';
 import MuiContainer from '@mui/material/Container';
@@ -7,7 +7,6 @@ import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import MovieCard from './MovieCard';
-import { fetchAllMovies } from '../../redux/slices/movie';
 
 const Section = styled('section')({
   height: '100%',
@@ -38,11 +37,6 @@ const Heading = styled(Typography)({
 
 function MovieGallery() {
   const { movieList, status } = useSelector((state) => state.movie);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchAllMovies());
-  }, []);
 
   return (
     <Section>
