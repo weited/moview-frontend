@@ -5,6 +5,8 @@ class MovieService {
 
   static getById = (movieId) => http.get(`/movies/${movieId}`);
 
+  static getByGenreId = (genreId) => http.get(`/movies/genre/${genreId}`);
+
   static create = (newMovie) => http.post('/movies', newMovie);
 
   static update = (movieId, updateMovie) => http.put(`/movies/${movieId}`, updateMovie);

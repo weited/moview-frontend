@@ -25,6 +25,13 @@ export const fetchAllGenres = createAsyncThunk('movie/fetchAllGenres', async () 
   const res = await GenreService.getAll();
   return res.data;
 });
+export const fetchMovieByGenreId = createAsyncThunk(
+  'movie/fetchMovieByGenreId',
+  async (genreId) => {
+    const res = await MovieService.getByGenreId(genreId);
+    return res.data;
+  }
+);
 
 export const movieSlice = createSlice({
   name: 'movie',
@@ -74,6 +81,18 @@ export const movieSlice = createSlice({
         state.genreList = action.payload;
       })
       .addCase(fetchAllGenres.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(fetchMovieByGenreId.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(fetchMovieByGenreId.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.movie = action.payload;
+      })
+      .addCase(fetchMovieByGenreId.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });

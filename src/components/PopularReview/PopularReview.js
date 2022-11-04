@@ -15,33 +15,43 @@ import StarIcon from '@mui/icons-material/Star';
 import { useNavigate } from 'react-router-dom';
 
 const Section = styled('section')({
-  width: '80%',
-  height: '55%',
+  width: '70%',
+  height: '100%',
 });
 
 const Heading = styled(Typography)({
-  paddingLeft: '5em',
+  fontWeight: '300',
 });
 
 const Container = styled(MuiContainer)(({ theme }) => ({
   paddingTop: theme.spacing(4),
+  paddingLeft: theme.spacing(5),
+  [theme.breakpoints.up('Laptop')]: {
+    maxWidth: '537px',
+  },
+  [theme.breakpoints.up('largeLaptop')]: {
+    maxWidth: '716px',
+  },
+  [theme.breakpoints.up('desktop')]: {
+    maxWidth: '1008px',
+  },
 }));
 
 const Card = styled(MuiCard)(() => ({
-  height: '300px',
+  height: '250px',
   display: 'flex',
   flexDirection: 'row',
   cursor: 'pointer',
+  backgroundColor: '#e2e2e2',
 }));
 
 const CardMedia = styled(MuiCardMedia)(() => ({
-  width: '40%',
-  height: 'auto',
+  width: '35%',
 }));
 
 const CardContent = styled(MuiCardContent)(() => ({
   flexGrow: 1,
-  width: '70%',
+  width: '300px',
 }));
 
 const CardActions = styled(MuiCardActions)(() => ({
@@ -66,7 +76,7 @@ const cards = [
     time: '15:30',
     date: '12/10/2022',
     comment:
-      "I hate my dreams. They're so ... infantile.\" Heaven knows what artist Laurie Anderson would make of Christopher Nolan's first film since ...",
+      "I hate my dreams. They're so ... infantile.\" Heaven knows what artist Laurie Anderson would make of Christopher Nolan's first film since ...t artist Laurie Anderson would make of Christopher Nolan's first film since",
   },
   {
     img: 'https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg',
@@ -93,11 +103,13 @@ export default function PopularReview() {
 
   return (
     <Section>
-      <Heading variant="h4">Popular Reviews</Heading>
-      <Container maxWidth="md">
-        <Grid container spacing={4}>
+      <Container>
+        <Heading variant="h3">Popular Reviews</Heading>
+      </Container>
+      <Container maxWidth="desktop">
+        <Grid container spacing={3}>
           {cards.map((card) => (
-            <Grid item key={card} xs={12} sm={6} md={6}>
+            <Grid item key={card} desktop={6} largeLaptop={10} sm={10} Laptop={12}>
               <Card onClick={() => navigate('/review/1')}>
                 <CardMedia image={card.img} title="Image title" />
                 <CardContent>
@@ -105,7 +117,16 @@ export default function PopularReview() {
                   <br />
                   <Typography>Review Author: {card.author}</Typography>
                   <br />
-                  <Typography>{card.comment}</Typography>
+                  <Typography
+                    sx={{
+                      display: '-webkit-box',
+                      overflow: 'hidden',
+                      WebkitBoxOrient: 'vertical',
+                      WebkitLineClamp: 3,
+                    }}
+                  >
+                    Comment: {card.comment}
+                  </Typography>
                   <CardActions>
                     <IconButton aria-label="add to favorites">
                       <FavoriteIcon />
