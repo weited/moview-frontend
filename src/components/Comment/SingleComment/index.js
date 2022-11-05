@@ -52,10 +52,14 @@ function SingleComment({ comment }) {
   const time = new Date(createdTime);
   return (
     <Container>
-      <LetterAvatars firstName={user.firstName} lastName={user.lastName} url={user.profileImgUrl} />
+      <LetterAvatars username={user?.username} url={user.profileImgUrl} />
       <Content>
         <Header>
-          <UserName>{`${user.firstName} ${user.lastName}`}</UserName>
+          <UserName>
+            {user?.username
+              ? user.username.replace(user.username[0], user.username[0].toUpperCase())
+              : 'User'}
+          </UserName>
           <Time>
             {`${time.getHours()}:${time.getMinutes()} ${time.getDay()}/${time.getMonth()}/${time.getFullYear()}`}
           </Time>

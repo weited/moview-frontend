@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import { useSelector, useDispatch } from 'react-redux';
+import CircularProgress from '@mui/material/CircularProgress';
 import { getCommentsByPostId } from '../../redux/slices/comment';
 import SingleComment from './SingleComment';
 import CreateNewComment from './CreateNewComment';
@@ -59,56 +60,67 @@ function Comment() {
   const [showCommentInput, setShowCommentInput] = useState(false);
   const { id: postId } = useParams();
   const comments = useSelector((state) => state.comment.commentList);
+  const status = useSelector((state) => state.comment.status);
   useEffect(() => {
     async function fetchData() {
-      await dispatch(getCommentsByPostId(postId));
+      try {
+        await dispatch(getCommentsByPostId(postId));
+      } catch (error) {
+        // TODO error notification
+        // eslint-disable-next-line no-console
+        console.log('error', error);
+      }
     }
     fetchData();
   }, []);
   return (
-    <Container>
-      <Title>
-        <Text>
-          {comments.length} {comments.length > 1 ? 'Comments' : 'Comment'}
-        </Text>
-        <AddCommentOutlinedIcon
-          sx={{ cursor: 'pointer' }}
-          fontSize="large"
-          onClick={() => setShowCommentInput(!showCommentInput)}
-        />
-      </Title>
-      <CreateNewComment
-        handleCancel={setShowCommentInput}
-        isDisplay={comments.length === 0 || showCommentInput}
-      />
-      {comments.length > 0 && (
-        <CommentContainer>
-          {comments.map((parent) => (
-            <ParentComment key={parent.id}>
-              <SingleComment comment={parent} />
-              <ModeCommentOutlinedIcon
-                sx={{ cursor: 'pointer', alignSelf: 'flex-end' }}
-                fontSize="small"
-                onClick={() => setShowCurrentComment(parent.id)}
-              />
-              <CreateNewComment
-                isDisplay={parent.id === currentComment}
-                handleCancel={setShowCurrentComment}
-                name={`${parent.user.firstName} ${parent.user.lastName}`}
-                parentId={parent.id}
-              />
-              {parent.childComment &&
-                parent.childComment.map((child) => (
-                  <ChildComment key={child.id}>
-                    <SingleComment comment={child} />
-                  </ChildComment>
-                ))}
-            </ParentComment>
-          ))}
-        </CommentContainer>
+    <>
+      {status === 'loading' && <CircularProgress />}
+      {status === 'succeeded' && (
+        <Container>
+          <Title>
+            <Text>
+              {comments.length} {comments.length > 1 ? 'Comments' : 'Comment'}
+            </Text>
+            <AddCommentOutlinedIcon
+              sx={{ cursor: 'pointer' }}
+              fontSize="large"
+              onClick={() => setShowCommentInput(!showCommentInput)}
+            />
+          </Title>
+          <CreateNewComment
+            handleCancel={setShowCommentInput}
+            isDisplay={comments.length === 0 || showCommentInput}
+          />
+          {comments.length > 0 && (
+            <CommentContainer>
+              {comments.map((parent) => (
+                <ParentComment key={parent.id}>
+                  <SingleComment comment={parent} />
+                  <ModeCommentOutlinedIcon
+                    sx={{ cursor: 'pointer', alignSelf: 'flex-end' }}
+                    fontSize="small"
+                    onClick={() => setShowCurrentComment(parent.id)}
+                  />
+                  <CreateNewComment
+                    isDisplay={parent.id === currentComment}
+                    handleCancel={setShowCurrentComment}
+                    name={parent.user.username}
+                    parentId={parent.id}
+                  />
+                  {parent.childComment &&
+                    parent.childComment.map((child) => (
+                      <ChildComment key={child.id}>
+                        <SingleComment comment={child} />
+                      </ChildComment>
+                    ))}
+                </ParentComment>
+              ))}
+            </CommentContainer>
+          )}
+        </Container>
       )}
-    </Container>
+    </>
   );
 }
-export const selectMovie = (state) => state.movie.movieList;
 export default Comment;

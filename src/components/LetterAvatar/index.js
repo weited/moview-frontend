@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import PropTypes from 'prop-types';
 
 function stringToColor(string) {
   let hash = 0;
@@ -24,18 +23,21 @@ function stringToColor(string) {
 }
 
 function stringAvatar(name) {
+  const children = `${name.split(' ')[0][0]}`.concat(
+    name.split(' ')[1] ? name.split(' ')[1][0] : ''
+  );
   return {
     sx: {
-      bgcolor: stringToColor(name),
+      bgcolor: stringToColor(children),
     },
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    children,
   };
 }
 
-export default function LetterAvatars({ firstName, lastName, url }) {
+export default function LetterAvatars({ username, url }) {
   return url ? (
     <Avatar
-      alt={`${firstName} ${lastName}`}
+      alt={username || 'User'}
       src={url}
       sx={{
         width: { xs: 30, sm: 40 },
@@ -44,22 +46,12 @@ export default function LetterAvatars({ firstName, lastName, url }) {
     />
   ) : (
     <Avatar
-      alt={`${firstName} ${lastName}`}
+      alt={username}
       sx={{
         width: { xs: 30, sm: 40 },
         height: { xs: 30, sm: 40 },
       }}
-      {...stringAvatar(`${firstName} ${lastName}`)}
+      {...stringAvatar(username || 'User')}
     />
   );
 }
-
-LetterAvatars.propTypes = {
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  url: PropTypes.string,
-};
-
-LetterAvatars.defaultProps = {
-  url: '',
-};

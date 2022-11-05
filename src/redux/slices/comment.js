@@ -66,6 +66,4 @@ export const commentSlice = createSlice({
   },
 });
 
-export const selectComment = (state) => state.comment.commentList;
-
 export default commentSlice.reducer;

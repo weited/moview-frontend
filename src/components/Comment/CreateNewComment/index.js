@@ -52,11 +52,17 @@ function CreateNewComment({ name, isDisplay, handleCancel, parentId }) {
         userId,
         parentId: parentId || null,
       };
-      const res = await dispatch(createComments(commentPayload));
-      if (res) {
-        handleCancel('');
-        setComment('');
-        await dispatch(getCommentsByPostId(postId));
+      try {
+        const res = await dispatch(createComments(commentPayload));
+        if (res) {
+          handleCancel('');
+          setComment('');
+          await dispatch(getCommentsByPostId(postId));
+        }
+      } catch (error) {
+        // TODO error notification
+        // eslint-disable-next-line no-console
+        console.log('error', error);
       }
     }
   };
