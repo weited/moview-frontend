@@ -15,9 +15,10 @@ pipeline {
 		ENDPOINT_NAME           = 'moview'
 		//aws environment
 		S3_REGION               = 'ap-southeast-2'
-		WORKSPACE_PATH          = '/var/lib/jenkins/workspace/frontend-prod/build' 
-		BUCKET_NAME             = 's3://moviewforum.com'
-		CLOUDFRONT_ID           = 'E35CXRGGO5DJMF'
+		WORKSPACE_PATH          = '/var/lib/jenkins/workspace/frontend-prod/build'
+		BUCKET_NAME             = 's3://www.moviewforum.com'
+		CLOUDFRONT_ID           = 'EJROD4CQRKLRO'
+		CLOUDFRONT_ID_SECOND    = 'E7OFOD8N8BLB9'
 	}
 
 	stages {
@@ -29,7 +30,7 @@ pipeline {
 				sh 'pip3 install awscli --upgrade'
 			}
 		}
-		
+
 		stage('Install packages') {
 			steps {
 				echo 'Installing packages ...'
@@ -43,7 +44,7 @@ pipeline {
 				sh 'yarn run build'
 			}
 		}
-		
+
 		stage('AWS - Deploy to AWS S3 and invalidation'){
 			steps {
 				withAWS(credentials: 'jenkins_aws', region: 'ap-southeast-2') {
@@ -51,6 +52,7 @@ pipeline {
 					sh "aws s3 rm ${BUCKET_NAME} --recursive"
 					sh "aws s3 cp ${WORKSPACE_PATH} ${BUCKET_NAME} --recursive"
 					sh "aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths '/*'"
+					sh "aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID_SECOND} --paths '/*'"
 				}
 			}
 		}
