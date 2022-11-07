@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import * as React from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
   Card as MuiCard,
   CardActions as MuiCardActions,
@@ -8,10 +9,13 @@ import {
   Typography,
   Container as MuiContainer,
   IconButton,
+  Button,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
+import TableRowsIcon from '@mui/icons-material/TableRows';
+import GridViewIcon from '@mui/icons-material/GridView';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllReviews, selectReview } from '../../redux/slices/review';
@@ -22,10 +26,13 @@ const Section = styled('section')({
 });
 
 const Heading = styled(Typography)({
-  fontWeight: '300',
+  paddingLeft: '5em',
+  display: 'flex',
+  justifyContent: 'space-between',
 });
 
 const Container = styled(MuiContainer)(({ theme }) => ({
+  marginLeft: '10%',
   paddingTop: theme.spacing(4),
   paddingLeft: theme.spacing(5),
   [theme.breakpoints.up('laptop')]: {
@@ -39,30 +46,53 @@ const Container = styled(MuiContainer)(({ theme }) => ({
   },
 }));
 
-const Card = styled(MuiCard)(() => ({
-  height: '250px',
+const Card1 = styled(MuiCard)(() => ({
+  height: '300px',
   display: 'flex',
   flexDirection: 'row',
   cursor: 'pointer',
   backgroundColor: '#e2e2e2',
 }));
 
-const CardMedia = styled(MuiCardMedia)(() => ({
-  width: '35%',
+const Card2 = styled(MuiCard)(() => ({
+  height: '220px',
+  display: 'flex',
+  cursor: 'pointer',
+}));
+
+const CardMedia1 = styled(MuiCardMedia)(() => ({
+  width: '40%',
+  height: 'auto',
+}));
+
+const CardMedia2 = styled(MuiCardMedia)(() => ({
+  width: '20%',
+  height: 'auto',
 }));
 
 const CardContent = styled(MuiCardContent)(() => ({
   flexGrow: 1,
-  width: '300px',
+  width: '75%',
 }));
 
-const CardActions = styled(MuiCardActions)(() => ({
+const CardActions1 = styled(MuiCardActions)(() => ({
   alignSelf: 'flex-end',
   justifyContent: 'center',
 }));
 
+const CardActions2 = styled(MuiCardActions)(() => ({
+  alignSelf: 'flex-end',
+  display: 'inline',
+}));
+
+const View = styled('span')(() => ({}));
+
 export default function PopularReview() {
   const navigate = useNavigate();
+  const [shouldDisplayList, setShouldDisplayList] = useState(false);
+  const onListClicked = useCallback(() => {
+    setShouldDisplayList(true);
+  }, [setShouldDisplayList]);
   const dispatch = useDispatch();
   const reviewList = useSelector(selectReview);
 
@@ -70,22 +100,44 @@ export default function PopularReview() {
     dispatch(fetchAllReviews());
   }, []);
 
+  const onGridClicked = useCallback(() => {
+    setShouldDisplayList(false);
+  }, [setShouldDisplayList]);
+  const isGridViewDisabled = shouldDisplayList === false;
+  const isListViewDisabled = shouldDisplayList === true;
   return (
     <Section>
-      <Container>
-        <Heading variant="h3">Popular Reviews</Heading>
-      </Container>
-      <Container maxWidth="desktop">
-        <Grid container spacing={3}>
-          {reviewList.length > 0 &&
-            reviewList.map((review) => (
-              <Grid item key={review.id} desktop={6} largeLaptop={10} sm={10} laptop={12}>
-                <Card onClick={() => navigate('/review/1')}>
-                  <CardMedia image={review.movie.posterImgUrl} title="Image title" />
+      <Heading variant="h4">
+        Popular Reviews
+        <View>
+          <IconButton
+            aria-label="display as grids"
+            onClick={onGridClicked}
+            disabled={isGridViewDisabled}
+          >
+            <GridViewIcon />
+          </IconButton>
+          <IconButton
+            aria-label="display as slices"
+            onClick={onListClicked}
+            disabled={isListViewDisabled}
+          >
+            <TableRowsIcon />
+          </IconButton>
+          <Button>Sort By</Button>
+        </View>
+      </Heading>
+      {shouldDisplayList === false ? (
+        <Container maxWidth="80%">
+          <Grid container spacing={4}>
+            {reviewList.map((review) => (
+              <Grid item key={review.id} xs={12} sm={6} md={6}>
+                <Card1 onClick={() => navigate('/review/1')}>
+                  <CardMedia1 image={review.movie.posterImgUrl} title="Image title" />
                   <CardContent>
-                    <Typography>{review.movie.name}</Typography>
+                    <Typography variant="h5">{review.movie.name}</Typography>
                     <br />
-                    <Typography>Review Author: {review.author.username}</Typography>
+                    <Typography variant="h6">Review Author: {review.author.username}</Typography>
                     <br />
                     <Typography
                       sx={{
@@ -97,7 +149,7 @@ export default function PopularReview() {
                     >
                       Comment: {review.contents}
                     </Typography>
-                    <CardActions>
+                    <CardActions1>
                       <IconButton aria-label="add to favorites">
                         <FavoriteIcon />
                       </IconButton>
@@ -107,13 +159,59 @@ export default function PopularReview() {
                       <Typography variant="body2" color="text.secondary">
                         {review.updatedTime}
                       </Typography>
-                    </CardActions>
+                    </CardActions1>
                   </CardContent>
-                </Card>
+                </Card1>
               </Grid>
             ))}
-        </Grid>
-      </Container>
+          </Grid>
+        </Container>
+      ) : null}
+
+      {shouldDisplayList === true ? (
+        <Container maxWidth="md">
+          <Grid container spacing={2}>
+            {reviewList.map((review) => (
+              <Grid item key={review.id} xs={12} sm={6} md={12}>
+                <Card2 onClick={() => navigate('/review/1')}>
+                  <CardMedia2 image={review.movie.posterImgUrl} title="Image title" />
+                  <CardContent>
+                    <Typography>
+                      <Typography variant="h5" display="inline">
+                        {review.movie.name}
+                      </Typography>
+                      <CardActions2>
+                        <IconButton aria-label="add to favorites">
+                          <FavoriteIcon />
+                        </IconButton>
+                        <IconButton aria-label="star">
+                          <StarIcon sx={{ fontSize: 28 }} />
+                        </IconButton>
+                        <Typography variant="body2" color="text.secondary" display="inline">
+                          {review.updatedTime}
+                        </Typography>
+                      </CardActions2>
+                    </Typography>
+                    <br />
+                    <Typography variant="h6">Review Author: {review.author.username}</Typography>
+                    <br />
+                    <Typography
+                      sx={{
+                        display: '-webkit-box',
+                        overflow: 'hidden',
+                        WebkitBoxOrient: 'vertical',
+                        WebkitLineClamp: 3,
+                      }}
+                    >
+                      Comment: {review.contents}
+                    </Typography>
+                  </CardContent>
+                </Card2>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      ) : null}
     </Section>
   );
 }

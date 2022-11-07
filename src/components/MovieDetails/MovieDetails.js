@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { fetchAllMovies } from '../../redux/slices/movie';
 
 function MovieDetails() {
   const { movieId } = useParams();
   const { movieList, status } = useSelector((state) => state.movie);
+  const dispatch = useDispatch();
   const Div = styled.div``;
   const H2 = styled.h2``;
   const H3 = styled.h3``;
@@ -110,7 +112,9 @@ function MovieDetails() {
     const result = movieItem.id === parseInt(movieId, 10);
     return result;
   });
-
+  useEffect(() => {
+    dispatch(fetchAllMovies());
+  }, []);
   if (status === 'loading') {
     return <>Loading...</>;
   }
