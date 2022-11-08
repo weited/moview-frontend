@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import CommentService from '../../service/comment';
+import { IDLE, FETCH_LOADING, FETCH_SUCCEEDED, FETCH_FAILED } from '../../constants/fetchStatus';
 
 const initialState = {
   commentList: [],
-  status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+  status: IDLE, // 'idle' | FETCH_LOADING | FETCH_SUCCEEDED | FETCH_FAILED
   error: null,
 };
 
@@ -30,26 +31,26 @@ export const commentSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getCommentsByPostId.pending, (state) => {
-        state.status = 'loading';
+        state.status = FETCH_LOADING;
         state.error = null;
       })
       .addCase(getCommentsByPostId.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = FETCH_SUCCEEDED;
         state.commentList = action.payload;
       })
       .addCase(getCommentsByPostId.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = FETCH_FAILED;
         state.error = action.error.message;
       })
       .addCase(createComments.pending, (state) => {
-        state.status = 'loading';
+        state.status = FETCH_LOADING;
         state.error = null;
       })
       .addCase(createComments.fulfilled, (state) => {
-        state.status = 'succeeded';
+        state.status = FETCH_SUCCEEDED;
       })
       .addCase(createComments.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = FETCH_FAILED;
         state.error = action.error.message;
       })
       .addCase(deleteComments.pending, (state) => {

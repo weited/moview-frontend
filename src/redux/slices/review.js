@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import ReviewService from '../../service/review';
+import { IDLE, FETCH_LOADING, FETCH_SUCCEEDED, FETCH_FAILED } from '../../constants/fetchStatus';
 
 const initialState = {
   reviewList: [],
   review: {},
-  status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+  status: IDLE, // 'idle' | FETCH_LOADING | FETCH_SUCCEEDED | FETCH_FAILED
   error: null,
 };
 
@@ -25,27 +26,27 @@ export const reviewSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllReviews.pending, (state) => {
-        state.status = 'loading';
+        state.status = FETCH_LOADING;
         state.error = null;
       })
       .addCase(fetchAllReviews.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = FETCH_SUCCEEDED;
         state.reviewList = action.payload;
       })
       .addCase(fetchAllReviews.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = FETCH_FAILED;
         state.error = action.error.message;
       })
       .addCase(fetchReviewById.pending, (state) => {
-        state.status = 'loading';
+        state.status = FETCH_LOADING;
         state.error = null;
       })
       .addCase(fetchReviewById.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = FETCH_SUCCEEDED;
         state.review = action.payload;
       })
       .addCase(fetchReviewById.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = FETCH_FAILED;
         state.error = action.error.message;
       });
   },

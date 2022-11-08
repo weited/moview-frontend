@@ -1,13 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import MovieService from '../../service/movie';
 import GenreService from '../../service/genre';
+import { IDLE, FETCH_LOADING, FETCH_SUCCEEDED, FETCH_FAILED } from '../../constants/fetchStatus';
 
 const initialState = {
   movieList: [],
   genreMovieList: [],
   movie: {},
   genreList: [],
-  status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+  status: IDLE,
   error: null,
 };
 
@@ -48,52 +49,52 @@ export const movieSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllMovies.pending, (state) => {
-        state.status = 'loading';
+        state.status = FETCH_LOADING;
         state.error = null;
       })
       .addCase(fetchAllMovies.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = FETCH_SUCCEEDED;
         state.movieList = action.payload;
         state.genreMovieList = action.payload;
       })
       .addCase(fetchAllMovies.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = FETCH_FAILED;
         state.error = action.error.message;
       })
       .addCase(fetchMovieById.pending, (state) => {
-        state.status = 'loading';
+        state.status = FETCH_LOADING;
         state.error = null;
       })
       .addCase(fetchMovieById.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = FETCH_SUCCEEDED;
         state.movie = action.payload;
       })
       .addCase(fetchMovieById.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = FETCH_FAILED;
         state.error = action.error.message;
       })
       .addCase(fetchAllGenres.pending, (state) => {
-        state.status = 'loading';
+        state.status = FETCH_LOADING;
         state.error = null;
       })
       .addCase(fetchAllGenres.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = FETCH_SUCCEEDED;
         state.genreList = action.payload;
       })
       .addCase(fetchAllGenres.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = FETCH_FAILED;
         state.error = action.error.message;
       })
       .addCase(fetchMovieByGenreId.pending, (state) => {
-        state.status = 'loading';
+        state.status = FETCH_LOADING;
         state.error = null;
       })
       .addCase(fetchMovieByGenreId.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = FETCH_SUCCEEDED;
         state.movie = action.payload;
       })
       .addCase(fetchMovieByGenreId.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = FETCH_FAILED;
         state.error = action.error.message;
       });
   },
