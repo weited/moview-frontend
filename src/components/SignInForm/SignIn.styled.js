@@ -1,4 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export const PageColor = createGlobalStyle`
   body {
@@ -32,9 +33,9 @@ export const TextStyle = styled.h4`
   font-size: 18px;
 `;
 
-export const SignInButtonStyle = styled.button`
+export const SignInButtonStyle = styled.div`
   justify-content: center;
-  background-color: ${(props) => props.theme.palette.primary.signin_register_light_purple};
+  background-color: ${(props) => props.theme.colors.button_purple};
   color: black;
   border: none;
   border-radius: 25px;
@@ -43,7 +44,6 @@ export const SignInButtonStyle = styled.button`
   align-self: center;
   font-size: 18px;
   margin-bottom: 3px;
-  cursor: pointer;
   &:hover {
     opacity: 0.8;
   }
@@ -54,6 +54,12 @@ export const SignInButtonStyle = styled.button`
     width: 80px;
     font-size: 14px;
   }
+`;
+
+export const SignInLoadingStyle = styled(LoadingButton)`
+  width: 100%;
+  height: 100%;
+  color: black;
 `;
 
 export const TextStyleP = styled.p`
