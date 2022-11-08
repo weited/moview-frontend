@@ -8,18 +8,18 @@ import Logo from '../Logo/Logo';
 
 import {
   PageColor,
-  SigninStyle,
+  SignInStyle,
   TextStyle,
   TextStyleP,
   FormStyle,
   Container,
-  SigninButtonStyle,
+  SignInButtonStyle,
   LongButtonStyle,
   RegisterButton,
   PasswordButton,
-} from './Signin.styled';
+} from './SignIn.styled';
 
-function Signin() {
+function SignIn() {
   const initialValues = { email: '', password: '' };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
@@ -66,7 +66,7 @@ function Signin() {
       <Logo />
       <Container>
         <FormStyle onSubmit={handleSubmit}>
-          <SigninStyle>Sign in</SigninStyle>
+          <SignInStyle>Sign in</SignInStyle>
           <TextStyle>Email</TextStyle>
           <TextField
             type="email"
@@ -90,7 +90,7 @@ function Signin() {
             sx={{ width: { sm: 200, md: 300 }, backgroundColor: 'white' }}
           />
           <p style={{ fontSize: '10px', color: 'red' }}>{formErrors.password}</p>
-          <SigninButtonStyle>Sign in</SigninButtonStyle>
+          <SignInButtonStyle>Sign in</SignInButtonStyle>
         </FormStyle>
         <TextStyleP>
           Don&apos;t have an account?{' '}
@@ -113,4 +113,4 @@ function Signin() {
     </>
   );
 }
-export default Signin;
+export default SignIn;

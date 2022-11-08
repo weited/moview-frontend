@@ -13,7 +13,7 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const SigninStyle = styled.div`
+export const SignInStyle = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
@@ -32,7 +32,7 @@ export const TextStyle = styled.h4`
   font-size: 18px;
 `;
 
-export const SigninButtonStyle = styled.button`
+export const SignInButtonStyle = styled.button`
   justify-content: center;
   background-color: ${(props) => props.theme.palette.primary.signin_register_light_purple};
   color: black;
