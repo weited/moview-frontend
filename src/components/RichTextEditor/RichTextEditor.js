@@ -7,7 +7,7 @@ import styled from 'styled-components';
 const Editor = styled.div`
   margin: 16px 0;
   .ql-toolbar {
-    background-color: ${(props) => props.theme.palette.primary.background_light_gray};
+    background-color: ${(props) => props.theme.colors.background_light_gray};
     border-bottom: none;
     border-radius: 10px 10px 0 0;
   }
@@ -17,7 +17,7 @@ const Editor = styled.div`
   .ql-editor {
     min-height: 200px;
     &.ql-blank::before {
-      color: ${(props) => props.theme.palette.primary.background_dark_gray};
+      color: ${(props) => props.theme.colors.background_dark_gray};
       font-style: unset;
     }
   }

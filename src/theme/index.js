@@ -2,28 +2,13 @@ import { createTheme } from '@mui/material/styles';
 
 // option refer to https://mui.com/material-ui/customization/theming/
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#5E5962', // TODO: change to our design
-      background_gray: '#7E7F81',
-      background_light_gray: '#F1F1F1',
-      background_dark_gray: '#464249',
-      background_light_yellow: '#F8F8F8',
-      text_light_gray: '#EDEDED',
-      signin_register_light_purple: '#696784',
-      register_password_blue: '#227ACA',
-    },
-    secondary: {
-      main: '#edf2ff',
-      background_light_gray: '#E3E3E3',
-    },
-  },
   colors: {
     /* List of all the colors, non-semantic */
     background_lightest_grey: '#F8F8F8',
     background_lighter_grey: '#F1F1F1',
     background_light_grey: '#E3E3E3',
     background_grey: '#7E7F80',
+    background_dark_gray: '#464249',
     button_purple: '#696784',
     background_light_purple: '#5E5962',
     background_purple: '#464249',

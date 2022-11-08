@@ -11,14 +11,14 @@ const PageStyle = createGlobalStyle`
   body {
     height: 100%;
     margin: 0;
-    background-color: ${(props) => props.theme.palette.primary.background_light_yellow};
+    background-color: ${(props) => props.theme.colors.background_lightest_grey};
     font-weight:700;
   }
 `;
 const Container = styled.div(
   ({ theme }) => `
   padding: 20px 20px 20px 10px;
-  color: ${theme.palette.primary.text_light_gray};
+  color: ${theme.colors.text_light_gray};
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -45,10 +45,10 @@ const StyledTitle = styled.title`
 `;
 const StyledInput = styled.input`
   width: 100%;
-  background-color: ${(props) => props.theme.palette.primary.text_light_gray};
+  background-color: ${(props) => props.theme.colors.text_light_gray};
   height: 40px;
   border-radius: 10px;
-  border: 1px solid ${(props) => props.theme.palette.primary.text_light_gray};
+  border: 1px solid ${(props) => props.theme.colors.text_light_gray};
   margin: 10px 0 20px 0;
   padding: 20px;
   box-sizing: border-box;
@@ -75,8 +75,8 @@ const StyledError = styled.h4`
 `;
 const StyledButton = styled.button`
   display: block;
-  background-color: ${(props) => props.theme.palette.primary.signin_register_light_purple};
-  color: ${(props) => props.theme.palette.primary.text_light_gray};
+  background-color: ${(props) => props.theme.colors.button_purple};
+  color: ${(props) => props.theme.colors.text_light_gray};
   font-size: 0.9rem;
   border: 0;
   border-radius: 25px;

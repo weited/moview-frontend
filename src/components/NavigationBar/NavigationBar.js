@@ -11,11 +11,9 @@ const Container = styled.header(
   ({ theme, isHomePage }) => `
   padding: 20px 20px 20px 10px;
   background-color:  ${
-    isHomePage
-      ? theme.palette.primary.background_gray
-      : theme.palette.primary.background_light_yellow
+    isHomePage ? theme.colors.background_gray : theme.colors.background_lightest_grey
   };
-  color: ${isHomePage ? theme.palette.primary.text_light_gray : theme.palette.primary.main};
+  color: ${isHomePage ? theme.colors.text_light_gray : theme.colors.background_light_purple};
   width: 100%;
   display: flex;
   flex-direction: row;

@@ -36,7 +36,7 @@ const UserName = styled.div`
 `;
 const Time = styled.div`
   font-size: 16px;
-  color: ${(props) => props.theme.palette.secondary.background_dark_gray};
+  color: ${(props) => props.theme.colors.background_dark_gray};
   @media (max-width: ${(props) => props.theme.breakpoints.largeLaptop}) {
     font-size: 10px;
   }

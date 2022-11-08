@@ -12,7 +12,7 @@ const initialState = {
 
 export const login = createAsyncThunk('user/login', async (user) => {
   const res = await UserService.login(user);
-  return res.data;
+  return res.headers.authorization;
 });
 
 export const register = createAsyncThunk('user/register', async (newUser) => {
@@ -32,7 +32,7 @@ export const userSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = FETCH_SUCCEEDED;
-        state.user = action.payload;
+        state.token = action.payload;
       })
       .addCase(login.rejected, (state, action) => {
         state.status = FETCH_FAILED;

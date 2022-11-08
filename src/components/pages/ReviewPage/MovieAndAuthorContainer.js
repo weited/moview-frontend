@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
-  background-color: ${(props) => props.theme.palette.secondary.background_light_gray};
+  background-color: ${(props) => props.theme.colors.background_light_gray};
   border-radius: 10px;
   width: 100px;
   padding: 20px;

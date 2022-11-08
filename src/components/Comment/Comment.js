@@ -29,7 +29,7 @@ const Text = styled.p`
   }
 `;
 const CommentContainer = styled.div`
-  background-color: ${(props) => props.theme.palette.secondary.background_light_gray};
+  background-color: ${(props) => props.theme.colors.background_light_grey};
   width: 100%;
   padding: 20px;
   border-radius: 10px;
