@@ -5,7 +5,7 @@ import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import NotFound404 from '../pages/NotFound404/NotFound404';
 import Review from '../pages/Review/Review';
-import MovieDetails from '../components/MovieDetails/MovieDetails';
+import Movie from '../pages/Movie/Movie';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -13,13 +13,13 @@ const router = createBrowserRouter(
       <Route path="/" element={<Root />}>
         <Route index element={<HomePage />} />
         <Route path="/review/:reviewId" element={<Review />} />
+        <Route path="/movie/:movieId" element={<Movie />} />
       </Route>
       <Route path="/login" element={<Login />}>
         <Route path=":id" element={<Login />} />
         <Route path=":id/:token" element={<Login />} />
       </Route>
       <Route path="/register" element={<Register />} />
-      <Route path="/movie/:movieId" element={<MovieDetails />} />
       <Route path="/*" element={<NotFound404 />} />
     </>
   )

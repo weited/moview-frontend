@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div(
   ({ theme }) => `
@@ -46,34 +47,41 @@ const SwiperCard = styled.div(
 function MovieSwiper() {
   const movies = [
     {
+      id: 17,
       movieName: 'The Imitation Game',
       moviePoster:
         'https://resizing.flixster.com/BkFrnkz1SCXdNNuaYHVaFkFv6IA=/206x305/v2/https://flxt.tmsimg.com/assets/p10771057_p_v12_au.jpg',
       movieRate: '9.0',
     },
     {
+      id: 2,
       movieName: 'The Shawshank Redemption',
       moviePoster:
         'https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg',
       movieRate: '8.4',
     },
     {
+      id: 1,
       movieName: 'V for Vendetta',
       moviePoster:
         'https://www.themoviedb.org/t/p/w440_and_h660_face/vEkIweJt73FBH8286DBoAIIctp5.jpg',
       movieRate: '7.3',
     },
     {
+      id: 3,
       movieName: 'Whiplash',
       moviePoster: 'https://flxt.tmsimg.com/assets/p10488558_p_v12_ai.jpg',
       movieRate: '9.4',
     },
   ];
+
+  const navigate = useNavigate();
+
   return (
     <Container>
       <SwiperBox>
         {movies.map((movie) => (
-          <SwiperCard>
+          <SwiperCard onClick={() => navigate(`movie/${movie.id}`)}>
             <img width="100%" height="auto" alt="movie poster" src={movie.moviePoster} />
             {movie.movieName}
             <br />
