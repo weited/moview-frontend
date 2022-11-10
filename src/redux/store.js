@@ -1,20 +1,42 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import counterReducer from './slices/counter';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import movieReducer from './slices/movie';
 import reviewReducer from './slices/review';
 import commentReducer from './slices/comment';
 import userReducer from './slices/user';
 
-const reducer = combineReducers({
-  count: counterReducer,
+const reducers = combineReducers({
   movie: movieReducer,
   comment: commentReducer,
   review: reviewReducer,
   user: userReducer,
 });
 
-const store = configureStore({
-  reducer,
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, reducers);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
-export default store;
+export const persistor = persistStore(store);
