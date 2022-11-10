@@ -4,7 +4,7 @@ import { IDLE, FETCH_LOADING, FETCH_SUCCEEDED, FETCH_FAILED } from '../../consta
 
 const initialState = {
   reviewList: [],
-  review: {},
+  currentReview: null,
   status: IDLE, // 'idle' | FETCH_LOADING | FETCH_SUCCEEDED | FETCH_FAILED
   error: null,
 };
@@ -22,7 +22,14 @@ export const fetchReviewById = createAsyncThunk('review/fetchReviewById', async 
 export const reviewSlice = createSlice({
   name: 'review',
   initialState,
-  reducers: {},
+  reducers: {
+    findById: (state, { payload }) => {
+      state.currentReview = state.reviewList.find(({ id }) => id === +payload) || null;
+    },
+    cleanFilter: (state) => {
+      state.currentReview = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllReviews.pending, (state) => {
@@ -52,6 +59,9 @@ export const reviewSlice = createSlice({
   },
 });
 
+export const { findById, cleanFilter } = reviewSlice.actions;
+
 export const selectReview = (state) => state.review.reviewList;
+export const selectCurrentReview = (state) => state.review.currentReview;
 
 export default reviewSlice.reducer;

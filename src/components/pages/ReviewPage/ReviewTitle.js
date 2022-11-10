@@ -1,23 +1,24 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Grid from '@mui/material/Unstable_Grid2';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { selectCurrentReview } from '../../../redux/slices/review';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: 40%;
-  margin-bottom: 40px;
+  padding: 0 380px 40px;
   @media (min-width: ${(props) => props.theme.breakpoints.tablet}) {
   }
 `;
 
 const Title = styled.h1`
-  font-size: 30px;
+  font-size: 42px;
   font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.25;
   @media (min-width: ${(props) => props.theme.breakpoints.tablet}) {
   }
 `;
@@ -26,13 +27,11 @@ const SubTitle = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
-  width: 50%;
   @media (min-width: ${(props) => props.theme.breakpoints.tablet}) {
   }
 `;
 
-const Tag = styled.span`
+const Tag = styled.a`
   font-size: 18px;
   font-weight: 700;
   @media (min-width: ${(props) => props.theme.breakpoints.tablet}) {
@@ -50,10 +49,9 @@ const IconGroup = styled.span`
 // TO DO: tags should come from redux and backend
 const TAG_LIST = ['Tag1', 'Tag2', 'Tag3', 'Tag4'];
 
-function ReviewTitle({ title }) {
-  // TO DO: use reviewId to get Tags
-  // eslint-disable-next-line no-unused-vars
-  const { reviewId } = useParams();
+function ReviewTitle() {
+  const review = useSelector(selectCurrentReview);
+  const { title } = review || {};
 
   return (
     <Container>
@@ -75,9 +73,5 @@ function ReviewTitle({ title }) {
     </Container>
   );
 }
-
-ReviewTitle.propTypes = {
-  title: PropTypes.string.isRequired,
-};
 
 export default ReviewTitle;

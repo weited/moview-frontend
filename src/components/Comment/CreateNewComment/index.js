@@ -53,16 +53,14 @@ function CreateNewComment({ name, isDisplay, handleCancel, parentId }) {
         parentId: parentId || null,
       };
       try {
-        const res = await dispatch(createComments(commentPayload));
+        const res = await dispatch(createComments(commentPayload)).unwrap();
         if (res) {
           handleCancel('');
           setComment('');
-          await dispatch(getCommentsByPostId(postId));
+          dispatch(getCommentsByPostId(postId));
         }
       } catch (error) {
         // TODO error notification
-        // eslint-disable-next-line no-console
-        console.log('error', error);
       }
     }
   };

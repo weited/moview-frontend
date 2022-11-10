@@ -22,7 +22,6 @@ import { fetchAllReviews, selectReview } from '../../redux/slices/review';
 
 const Section = styled('section')({
   width: '70%',
-  height: '100%',
 });
 
 const Heading = styled(Typography)({
@@ -132,7 +131,7 @@ export default function PopularReview() {
           <Grid container spacing={4}>
             {reviewList.map((review) => (
               <Grid item key={review.id} xs={12} sm={6} md={6}>
-                <Card1 onClick={() => navigate('/review/1')}>
+                <Card1 onClick={() => navigate(`/review/${review.id}`)}>
                   <CardMedia1 image={review.movie.posterImgUrl} title="Image title" />
                   <CardContent>
                     <Typography variant="h5">{review.movie.name}</Typography>

@@ -1,38 +1,57 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import ReviewTitle from '../../components/pages/ReviewPage/ReviewTitle';
 import MovieCard from '../../components/pages/ReviewPage/MovieCard';
 import AuthorCard from '../../components/pages/ReviewPage/AuthorCard';
 import ReviewContent from '../../components/pages/ReviewPage/ReviewContent';
+import ReviewTitle from '../../components/pages/ReviewPage/ReviewTitle';
+import { findById, cleanFilter } from '../../redux/slices/review';
 
 const Container = styled.div`
   background-color: ${(props) => props.theme.colors.background_lightest_grey};
-  min-height: 100vh;
+  display: flex;
+  justify-content: center;
   @media (min-width: ${(props) => props.theme.breakpoints.tablet}) {
   }
+`;
+const CenterWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 1600px;
+  margin: 0 20px;
+  padding-bottom: 40px;
 `;
 const Content = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  gap: 10px;
+  gap: 40px;
+  width: 100%;
+  align-items: flex-start;
   @media (min-width: ${(props) => props.theme.breakpoints.tablet}) {
   }
 `;
 function Review() {
-  // TO DO: use this id from path fetch post from backend
-  // eslint-disable-next-line no-unused-vars
   const { reviewId } = useParams();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(findById(reviewId));
+    return () => {
+      dispatch(cleanFilter());
+    };
+  }, [reviewId]);
 
   return (
     <Container>
-      <ReviewTitle title="This is a review" />
-      <Content>
-        <MovieCard movieId={1} />
-        <ReviewContent />
-        <AuthorCard userId={1} />
-      </Content>
+      <CenterWrapper>
+        <ReviewTitle />
+        <Content>
+          <MovieCard movieId={1} />
+          <ReviewContent />
+          <AuthorCard userId={1} />
+        </Content>
+      </CenterWrapper>
     </Container>
   );
 }

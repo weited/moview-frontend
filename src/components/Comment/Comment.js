@@ -11,7 +11,6 @@ import CreateNewComment from './CreateNewComment';
 
 const Container = styled.div`
   width: 100%;
-  padding: 20px;
   @media (min-width: ${(props) => props.theme.breakpoints.tablet}) {
   }
 `;
@@ -29,7 +28,7 @@ const Text = styled.p`
   }
 `;
 const CommentContainer = styled.div`
-  background-color: ${(props) => props.theme.colors.background_light_grey};
+  background-color: ${(props) => props.theme.colors.background_lighter_grey};
   width: 100%;
   padding: 20px;
   border-radius: 10px;
@@ -58,17 +57,15 @@ function Comment() {
   const dispatch = useDispatch();
   const [currentComment, setShowCurrentComment] = useState('');
   const [showCommentInput, setShowCommentInput] = useState(false);
-  const { id: postId } = useParams();
+  const { reviewId } = useParams();
   const comments = useSelector((state) => state.comment.commentList);
   const status = useSelector((state) => state.comment.status);
   useEffect(() => {
     async function fetchData() {
       try {
-        await dispatch(getCommentsByPostId(postId));
+        await dispatch(getCommentsByPostId(reviewId)).unwrap();
       } catch (error) {
         // TODO error notification
-        // eslint-disable-next-line no-console
-        console.log('error', error);
       }
     }
     fetchData();
