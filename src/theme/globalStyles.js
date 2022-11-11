@@ -20,6 +20,11 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
   }
 
+  a {
+    cursor: pointer;
+    ${'' /* text-decoration: none; */}
+  }
+
   ol,
   ul,
   li {

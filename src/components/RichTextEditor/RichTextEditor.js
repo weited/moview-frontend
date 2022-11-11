@@ -31,6 +31,7 @@ function RichTextEditor({ value, setValue, placeholder }) {
   }, [value]);
   const modules = {
     toolbar: [
+      [{ header: [1, 2, 3, false] }],
       ['bold', 'italic'],
       [
         {

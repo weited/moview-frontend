@@ -6,6 +6,7 @@ import Register from '../pages/Register/Register';
 import NotFound404 from '../pages/NotFound404/NotFound404';
 import Review from '../pages/Review/Review';
 import Movie from '../pages/Movie/Movie';
+import NewReview from '../pages/Review/NewReviewPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -14,6 +15,7 @@ const router = createBrowserRouter(
         <Route index element={<HomePage />} />
         <Route path="/review/:reviewId" element={<Review />} />
         <Route path="/movie/:movieId" element={<Movie />} />
+        <Route path="/movie/:movieId/new-review" element={<NewReview />} />
       </Route>
       <Route path="/login" element={<Login />}>
         <Route path=":id" element={<Login />} />

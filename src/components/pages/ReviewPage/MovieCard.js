@@ -10,7 +10,7 @@ function MovieCard({ movieId }) {
   const dispatch = useDispatch();
   useEffect(() => {
     async function fetchData() {
-      await dispatch(fetchMovieById(movieId));
+      await dispatch(fetchMovieById(movieId)).unwrap();
     }
     fetchData();
   }, []);

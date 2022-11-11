@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import MovieService from '../../service/movie';
 
@@ -106,25 +106,30 @@ const Tags = styled.div(
 
 function MovieDetails() {
   const { movieId } = useParams();
+  const navigate = useNavigate();
   // const { movieList, status } = useSelector((state) => state.movie);
   // const movie = movieList.find((movieItem) => {
   //   const result = movieItem.id === parseInt(movieId, 10);
   //   return result;
   // });
-  const [status, setStatus] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [movie, setMovie] = useState();
 
   useEffect(() => {
     const fetchMovieById = async () => {
-      setStatus(true);
+      setLoading(true);
       const res = await MovieService.getById(movieId);
       setMovie(res.data);
-      setStatus(false);
+      setLoading(false);
     };
     fetchMovieById();
   }, [movieId]);
 
-  if (status === 'loading') {
+  const handleClick = () => {
+    navigate('new-review', { state: { movie } });
+  };
+
+  if (loading) {
     return <>Loading...</>;
   }
   if (movie === undefined) {
@@ -142,7 +147,7 @@ function MovieDetails() {
             <Heading>
               <H2>{name}</H2>
               <H2>{rating}</H2>
-              <Button>Create My Review</Button>
+              <Button onClick={handleClick}>Create My Review</Button>
             </Heading>
             <H3>
               {genre.name} | {year}
