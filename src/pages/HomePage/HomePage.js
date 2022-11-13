@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import MovieGallery from '../../components/MovieGallery/MovieGallery';
 import Category from '../../components/Category/Category';
 import MovieSwiper from '../../components/MovieSwiper/MovieSwiper';
 import PopularReview from '../../components/PopularReview/PopularReview';
 import TrendingTag from '../../components/TrendingTag/TrendingTag';
 import TagService from '../../service/tag';
+
+const Main = styled('main')({
+  height: '100%',
+});
 
 const TrendingTagAndReview = styled.div`
   display: flex;
@@ -26,10 +29,9 @@ function HomePage() {
   }, []);
 
   return (
-    <>
+    <Main>
       <Category />
       <MovieSwiper />
-      <MovieGallery />
       <TrendingTagAndReview>
         <PopularReview />
         <TrendingTag
@@ -41,7 +43,7 @@ function HomePage() {
           tag6={TrendingTags[5] && TrendingTags[5].name}
         />
       </TrendingTagAndReview>
-    </>
+    </Main>
   );
 }
 
