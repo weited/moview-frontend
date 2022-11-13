@@ -26,7 +26,7 @@ export const reviewSlice = createSlice({
     findById: (state, { payload }) => {
       state.currentReview = state.reviewList.find(({ id }) => id === +payload) || null;
     },
-    cleanFilter: (state) => {
+    cleanCurrent: (state) => {
       state.currentReview = null;
     },
   },
@@ -50,7 +50,7 @@ export const reviewSlice = createSlice({
       })
       .addCase(fetchReviewById.fulfilled, (state, action) => {
         state.status = FETCH_SUCCEEDED;
-        state.review = action.payload;
+        state.currentReview = action.payload;
       })
       .addCase(fetchReviewById.rejected, (state, action) => {
         state.status = FETCH_FAILED;
@@ -59,7 +59,7 @@ export const reviewSlice = createSlice({
   },
 });
 
-export const { findById, cleanFilter } = reviewSlice.actions;
+export const { findById, cleanCurrent } = reviewSlice.actions;
 
 export const selectReview = (state) => state.review.reviewList;
 export const selectCurrentReview = (state) => state.review.currentReview;

@@ -6,7 +6,7 @@ import MovieCard from '../../components/pages/ReviewPage/MovieCard';
 import AuthorCard from '../../components/pages/ReviewPage/AuthorCard';
 import ReviewContent from '../../components/pages/ReviewPage/ReviewContent';
 import ReviewTitle from '../../components/pages/ReviewPage/ReviewTitle';
-import { findById, cleanFilter } from '../../redux/slices/review';
+import { cleanCurrent, fetchReviewById } from '../../redux/slices/review';
 
 const Container = styled.div`
   background-color: ${(props) => props.theme.colors.background_lightest_grey};
@@ -36,9 +36,9 @@ function Review() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(findById(reviewId));
+    dispatch(fetchReviewById(reviewId));
     return () => {
-      dispatch(cleanFilter());
+      dispatch(cleanCurrent());
     };
   }, [reviewId]);
 

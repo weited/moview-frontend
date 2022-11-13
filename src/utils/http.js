@@ -53,6 +53,7 @@ http.interceptors.response.use(
           break;
         case 404:
           message = 'No resource found!';
+          window.location.pathname = '/404';
           break;
         case 500:
           message = 'Server error!';
