@@ -1,18 +1,17 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Container from '@mui/material/Container';
+import { fetchAllTags } from '../../../redux/slices/tag';
 
 import ReviewCreate from '../../../components/ReviewCreate';
 
 function NewReviewPage() {
-  console.log('start');
-  console.log(useLocation());
-
   const { state } = useLocation();
-
+  const dispatch = useDispatch();
   const { movie } = state || {};
 
-  console.log(movie);
+  dispatch(fetchAllTags());
 
   return (
     <Container maxWidth="largeLaptop">

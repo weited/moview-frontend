@@ -5,7 +5,7 @@ import { IDLE, FETCH_LOADING, FETCH_SUCCEEDED, FETCH_FAILED } from '../../consta
 const initialState = {
   reviewList: [],
   currentReview: null,
-  status: IDLE, // 'idle' | FETCH_LOADING | FETCH_SUCCEEDED | FETCH_FAILED
+  status: IDLE,
   error: null,
 };
 

@@ -4,9 +4,11 @@ import Editor from './Editor';
 import MovieSlimCard from './MovieSlimCard';
 
 const Container = styled.div`
-  display: flex;
-  padding: 40px 0;
+  /* display: flex; */
+  margin: 20px 0;
+  padding: 40px;
   /* justify-content: center; */
+  background-color: #ffffff;
 `;
 
 function ReviewCreate() {
@@ -15,7 +17,9 @@ function ReviewCreate() {
       <Container>
         <MovieSlimCard />
       </Container>
-      <Editor />
+      <Container>
+        <Editor />
+      </Container>
     </>
   );
 }

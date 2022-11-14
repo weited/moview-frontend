@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import {
   Card as MuiCard,
   CardActions as MuiCardActions,
@@ -17,8 +17,8 @@ import StarIcon from '@mui/icons-material/Star';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import GridViewIcon from '@mui/icons-material/GridView';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllReviews, selectReview } from '../../redux/slices/review';
+import { useSelector } from 'react-redux';
+import { selectReview } from '../../redux/slices/review';
 
 const Section = styled('section')({
   width: '70%',
@@ -92,12 +92,7 @@ export default function PopularReview() {
   const onListClicked = useCallback(() => {
     setShouldDisplayList(true);
   }, [setShouldDisplayList]);
-  const dispatch = useDispatch();
   const reviewList = useSelector(selectReview);
-
-  useEffect(() => {
-    dispatch(fetchAllReviews());
-  }, []);
 
   const onGridClicked = useCallback(() => {
     setShouldDisplayList(false);
