@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +11,7 @@ import { login } from '../../redux/slices/user';
 import { ALERT_SUCCESS, ALERT_ERROR } from '../../constants/alertType';
 
 import {
+  LogoStyle,
   PageColor,
   SignInStyle,
   TextStyle,
@@ -21,6 +21,7 @@ import {
   SignInButtonStyle,
   SignInLoadingStyle,
   LongButtonStyle,
+  StyledInput,
   RegisterButton,
   PasswordButton,
 } from './SignIn.styled';
@@ -92,7 +93,9 @@ function SignIn() {
   return (
     <>
       <PageColor />
-      <Logo />
+      <LogoStyle>
+        <Logo />
+      </LogoStyle>
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={open}
@@ -107,26 +110,21 @@ function SignIn() {
         <FormStyle>
           <SignInStyle>Sign in</SignInStyle>
           <TextStyle>Email</TextStyle>
-          <TextField
+          <StyledInput
             type="email"
             name="email"
             placeholder="email"
             value={formValues.email}
             onChange={handleChange}
-            sx={{
-              width: { sm: 200, md: 300 },
-              backgroundColor: 'white',
-            }}
           />
           <p style={{ fontSize: '10px', color: 'red' }}>{formErrors.email}</p>
           <TextStyle>Password</TextStyle>
-          <TextField
+          <StyledInput
             type="password"
             name="password"
             placeholder="password"
             value={formValues.password}
             onChange={handleChange}
-            sx={{ width: { sm: 200, md: 300 }, backgroundColor: 'white' }}
           />
           <p style={{ fontSize: '10px', color: 'red' }}>{formErrors.password}</p>
           <SignInButtonStyle>
