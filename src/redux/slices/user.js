@@ -4,15 +4,16 @@ import { getItem } from '../../utils/localStorage';
 import { IDLE, FETCH_LOADING, FETCH_SUCCEEDED, FETCH_FAILED } from '../../constants/fetchStatus';
 
 const initialState = {
-  user: {},
+  user: null,
   token: getItem('token'),
+  isLogin: false,
   status: IDLE,
   error: null,
 };
 
 export const login = createAsyncThunk('user/login', async (user) => {
-  const res = await UserService.login(user);
-  return res.headers.authorization;
+  const { headers, data } = await UserService.login(user);
+  return { token: headers.authorization, data };
 });
 
 export const register = createAsyncThunk('user/register', async (newUser) => {
@@ -23,7 +24,14 @@ export const register = createAsyncThunk('user/register', async (newUser) => {
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.user = null;
+      state.token = null;
+      state.isLogin = false;
+      localStorage.removeItem('token');
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -32,7 +40,10 @@ export const userSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = FETCH_SUCCEEDED;
-        state.token = action.payload;
+        state.token = action.payload.token;
+        state.user = action.payload.data;
+        state.isLogin = true;
+        localStorage.setItem('token', action.payload.token);
       })
       .addCase(login.rejected, (state, action) => {
         state.status = FETCH_FAILED;
