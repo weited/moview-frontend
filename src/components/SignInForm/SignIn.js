@@ -79,11 +79,12 @@ function SignIn() {
       try {
         await dispatch(login(formValues)).unwrap();
         setAlert({ ...alert, open: true, message: 'Logged in successfully!', type: ALERT_SUCCESS });
+        navigate('/', { replace: true });
       } catch (error) {
         setAlert({
           ...alert,
           open: true,
-          message: 'Email or password in correct!',
+          message: 'Email or password incorrect!',
           type: ALERT_ERROR,
         });
       }

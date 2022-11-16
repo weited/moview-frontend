@@ -1,7 +1,9 @@
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../assets/img/logo.png';
 
-const Logo = styled.img.attrs({
+const LogoImg = styled.img.attrs({
   src: logo,
 })`
   width: 90px;
@@ -21,5 +23,18 @@ const Logo = styled.img.attrs({
     border-radius: 25px;
   }
 `;
+
+function Logo() {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const handleClick = () => {
+    if (pathname !== '/') {
+      navigate('/');
+    }
+  };
+
+  return <LogoImg onClick={handleClick} />;
+}
 
 export default Logo;

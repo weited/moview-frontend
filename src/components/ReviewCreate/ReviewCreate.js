@@ -9,6 +9,7 @@ const Container = styled.div`
   padding: 40px;
   /* justify-content: center; */
   background-color: #ffffff;
+  border-radius: 16px;
 `;
 
 function ReviewCreate() {

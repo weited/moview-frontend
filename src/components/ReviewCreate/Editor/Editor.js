@@ -1,14 +1,16 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import MuiButton from '@mui/material/Button';
 import MuiLoadingButton from '@mui/lab/LoadingButton';
 import RichTextEditor from '../../RichTextEditor/RichTextEditor';
 import TagPicker from '../TagPicker';
 import ReviewService from '../../../service/review';
+import { selectCurrentUser } from '../../../redux/slices/user';
 
 const FormWrapper = styled.div`
   display: flex;
@@ -24,6 +26,15 @@ const ButtonGroup = styled.div`
   justify-content: space-between;
 `;
 
+const Button = styled(MuiButton)(({ theme }) => ({
+  color: theme.colors.button_purple,
+  borderColor: theme.colors.button_purple,
+  '&:hover': {
+    borderColor: theme.colors.button_purple,
+    opacity: 0.8,
+  },
+}));
+
 const LoadingButton = styled(MuiLoadingButton)(({ theme }) => ({
   backgroundColor: theme.colors.button_purple,
   '&:hover': {
@@ -33,23 +44,28 @@ const LoadingButton = styled(MuiLoadingButton)(({ theme }) => ({
 }));
 
 function Editor() {
+  const navigate = useNavigate();
   const {
     state: { movie },
   } = useLocation();
 
   const { id, name } = movie;
+  const userInfo = useSelector(selectCurrentUser);
+  const { id: authorId } = userInfo;
 
   const formik = useFormik({
     initialValues: {
       movieId: id,
-      authorId: 4,
+      authorId,
       title: '',
       contents: '',
       tagList: [],
     },
-    onSubmit: async (values) => {
-      console.log('submit', values);
-      await ReviewService.create(values);
+    onSubmit: async (values, { setSubmitting }) => {
+      const { data } = await ReviewService.create(values);
+      setSubmitting(false);
+      alert('created successfully');
+      navigate(`/review/${data.id}`);
     },
   });
 
@@ -92,8 +108,15 @@ function Editor() {
           />
         </Wrapper>
         <ButtonGroup>
-          <Button variant="outlined">Cancel</Button>
-          <LoadingButton type="submit" variant="contained" loading={false}>
+          <Button
+            variant="outlined"
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            Cancel
+          </Button>
+          <LoadingButton type="submit" variant="contained" loading={formik.isSubmitting}>
             Publish
           </LoadingButton>
         </ButtonGroup>

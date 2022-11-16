@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -16,12 +16,13 @@ function MovieSlimCard() {
   const {
     state: { movie },
   } = useLocation();
+  const navigate = useNavigate();
 
-  const { name, genre, rating, director, year, posterImgUrl } = movie;
+  const { id, name, genre, rating, director, year, posterImgUrl } = movie;
 
   return (
     <CardWrapper>
-      <Card sx={{ display: 'flex' }}>
+      <Card sx={{ display: 'flex', cursor: 'pointer' }} onClick={() => navigate(`/movie/${id}`)}>
         <CardMedia component="img" sx={{ width: 100 }} image={posterImgUrl} alt={name} />
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <CardContent>

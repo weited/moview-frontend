@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+// import NotificationsIcon from '@mui/icons-material/Notifications';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
+import { logout } from '../../redux/slices/user';
 
 const Container = styled.header(
   ({ theme, isHomePage }) => `
@@ -36,14 +38,26 @@ const UserInfo = styled.span(
 );
 
 export default function NavigationBar() {
-  // eslint-disable-next-line no-unused-vars
-  const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const path = useLocation();
+
+  const user = useSelector((state) => state.user);
+  const { isLogin } = user;
+
   const isHomePage = path.pathname === '/';
+
+  const handleAuth = () => {
+    if (!isLogin) {
+      navigate('/login');
+    } else {
+      dispatch(logout());
+    }
+  };
+
   return (
     <Container isHomePage={isHomePage}>
-      <Logo onClick={() => navigate('/')} />
+      <Logo />
       <Box
         sx={{
           width: { xs: '40%', sm: '55%' },
@@ -51,9 +65,7 @@ export default function NavigationBar() {
       >
         {isHomePage && <TextField fullWidth id="outlined-basic" label="" variant="outlined" />}
       </Box>
-      <UserInfo onClick={() => isLogin || navigate('/login')}>
-        {isLogin ? <NotificationsIcon /> : 'Sign in'}
-      </UserInfo>
+      <UserInfo onClick={handleAuth}>{isLogin ? 'Logout' : 'Sign in'}</UserInfo>
       <AccountCircleIcon sx={{ fontSize: { sm: 50, lg: 75 }, color: '#D0D0D0' }} />
     </Container>
   );

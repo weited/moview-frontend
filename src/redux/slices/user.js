@@ -4,7 +4,7 @@ import { getItem } from '../../utils/localStorage';
 import { IDLE, FETCH_LOADING, FETCH_SUCCEEDED, FETCH_FAILED } from '../../constants/fetchStatus';
 
 const initialState = {
-  user: null,
+  userInfo: null,
   token: getItem('token'),
   isLogin: false,
   status: IDLE,
@@ -26,7 +26,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      state.user = null;
+      state.userInfo = null;
       state.token = null;
       state.isLogin = false;
       localStorage.removeItem('token');
@@ -41,7 +41,7 @@ export const userSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.status = FETCH_SUCCEEDED;
         state.token = action.payload.token;
-        state.user = action.payload.data;
+        state.userInfo = action.payload.data;
         state.isLogin = true;
         localStorage.setItem('token', action.payload.token);
       })
@@ -63,6 +63,8 @@ export const userSlice = createSlice({
   },
 });
 
-export const selectCurrentUser = (state) => state.user.user;
+export const { logout } = userSlice.actions;
+
+export const selectCurrentUser = (state) => state.user.userInfo;
 
 export default userSlice.reducer;

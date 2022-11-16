@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import MovieService from '../../service/movie';
@@ -107,11 +108,7 @@ const Tags = styled.div(
 function MovieDetails() {
   const { movieId } = useParams();
   const navigate = useNavigate();
-  // const { movieList, status } = useSelector((state) => state.movie);
-  // const movie = movieList.find((movieItem) => {
-  //   const result = movieItem.id === parseInt(movieId, 10);
-  //   return result;
-  // });
+  const isLogin = useSelector((state) => state.user.isLogin);
   const [loading, setLoading] = useState(false);
   const [movie, setMovie] = useState();
 
@@ -126,6 +123,12 @@ function MovieDetails() {
   }, [movieId]);
 
   const handleClick = () => {
+    if (!isLogin) {
+      // TODO: notification
+      // eslint-disable-next-line no-alert
+      alert('please login');
+      return;
+    }
     navigate('new-review', { state: { movie } });
   };
 

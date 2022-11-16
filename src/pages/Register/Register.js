@@ -1,5 +1,7 @@
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
+import { Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Logo from '../../components/Logo/Logo';
 import RegisterForm from '../../components/RegisterForm/RegisterForm';
 
@@ -30,6 +32,10 @@ const Container = styled.div(
 );
 
 function Register() {
+  const { isLogin } = useSelector((state) => state.user);
+  if (isLogin) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <>
       <PageStyle />
