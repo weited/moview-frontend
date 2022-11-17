@@ -64,6 +64,8 @@ function Editor() {
     onSubmit: async (values, { setSubmitting }) => {
       const { data } = await ReviewService.create(values);
       setSubmitting(false);
+      // TODO: handle notification
+      // eslint-disable-next-line no-alert
       alert('created successfully');
       navigate(`/review/${data.id}`);
     },

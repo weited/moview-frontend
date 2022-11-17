@@ -30,12 +30,6 @@
     ],
     "react/prop-types": "off",
     "no-restricted-exports": "off",
-    "react/jsx-props-no-spreading": [
-      "warn",
-      {
-        "html": "ignore",
-        "exceptions": ["li"]
-      }
-    ]
+    "react/jsx-props-no-spreading": "off"
   }
 }

@@ -11,7 +11,6 @@ export default function TagPicker({ value, setValue }) {
 
   useEffect(() => {
     if (value.length > 4) {
-      // setIsMax(true);
       setValue(value.slice(0, -1));
     }
   }, [value]);
