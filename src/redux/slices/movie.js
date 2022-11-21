@@ -6,6 +6,7 @@ import { IDLE, FETCH_LOADING, FETCH_SUCCEEDED, FETCH_FAILED } from '../../consta
 const initialState = {
   movieList: [],
   genreMovieList: [],
+  currentGenre: 'All',
   movie: {},
   genreList: [],
   status: IDLE,
@@ -39,6 +40,7 @@ export const movieSlice = createSlice({
   initialState,
   reducers: {
     filterByGenre: (state, { payload }) => {
+      state.currentGenre = payload;
       if (payload === 'All') {
         state.genreMovieList = [...state.movieList];
       } else {
@@ -55,7 +57,6 @@ export const movieSlice = createSlice({
       .addCase(fetchAllMovies.fulfilled, (state, action) => {
         state.status = FETCH_SUCCEEDED;
         state.movieList = action.payload;
-        state.genreMovieList = action.payload;
       })
       .addCase(fetchAllMovies.rejected, (state, action) => {
         state.status = FETCH_FAILED;
@@ -100,9 +101,10 @@ export const movieSlice = createSlice({
   },
 });
 
-export const { filterByGenre } = movieSlice.actions;
+export const { filterByGenre, changeGenre } = movieSlice.actions;
 
 export const selectMovie = (state) => state.movie.movieList;
 export const selectGenre = (state) => state.movie.genreList;
+export const selectGenreMovies = (state) => state.movie.genreMovieList;
 
 export default movieSlice.reducer;

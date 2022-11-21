@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-// import { useParams} from 'react-router-dom';
-// import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectGenre, filterByGenre } from '../../redux/slices/movie';
 
 const Container = styled.div(
   ({ theme }) => `
@@ -28,12 +28,16 @@ const CategoryBar = styled.div(
 );
 
 const CategoryItem = styled.div(
-  ({ theme }) => `
+  ({ theme, active }) => `
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   font-weight: 600;
   padding: 3px 6px;
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: 10px;
+  background-color: ${active && theme.colors.category_highlight_grey};
   :hover {
     border-radius: 10px;
     background-color: ${theme.colors.category_highlight_grey};
@@ -41,28 +45,31 @@ const CategoryItem = styled.div(
 );
 
 function Category() {
-  const genres = [
-    'All',
-    'Action',
-    'Comedy',
-    'Drama',
-    'Fantasy',
-    'Mystery',
-    'Sci-Fi',
-    'Animation',
-    'Thriller',
-  ];
+  const dispatch = useDispatch();
+  const genreList = useSelector(selectGenre);
+  const currentGenre = useSelector((state) => state.movie.currentGenre);
+
+  // TODO: 临时放置9个风格 第十个风格暂时没有电影 是空的
+  const genres = [{ name: 'All' }, ...genreList].slice(0, 9);
+
+  const handleClick = (genreName) => {
+    dispatch(filterByGenre(genreName));
+  };
 
   return (
-    <div>
-      <Container>
-        <CategoryBar>
-          {genres.map((genre) => (
-            <CategoryItem>{genre}</CategoryItem>
-          ))}
-        </CategoryBar>
-      </Container>
-    </div>
+    <Container>
+      <CategoryBar>
+        {genres.map((genre) => (
+          <CategoryItem
+            key={genre.name}
+            active={genre.name === currentGenre}
+            onClick={() => handleClick(genre.name)}
+          >
+            {genre.name}
+          </CategoryItem>
+        ))}
+      </CategoryBar>
+    </Container>
   );
 }
 

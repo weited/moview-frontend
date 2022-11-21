@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import router from './routers/Routers';
@@ -8,9 +8,11 @@ import { fetchAllReviews } from './redux/slices/review';
 function App() {
   const dispatch = useDispatch();
 
-  dispatch(fetchAllGenres());
-  dispatch(fetchAllMovies());
-  dispatch(fetchAllReviews());
+  useEffect(() => {
+    dispatch(fetchAllGenres());
+    dispatch(fetchAllMovies());
+    dispatch(fetchAllReviews());
+  }, []);
 
   return (
     <div className="App">

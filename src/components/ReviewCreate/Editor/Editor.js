@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -11,6 +11,7 @@ import RichTextEditor from '../../RichTextEditor/RichTextEditor';
 import TagPicker from '../TagPicker';
 import ReviewService from '../../../service/review';
 import { selectCurrentUser } from '../../../redux/slices/user';
+import { fetchAllReviews } from '../../../redux/slices/review';
 
 const FormWrapper = styled.div`
   display: flex;
@@ -45,6 +46,7 @@ const LoadingButton = styled(MuiLoadingButton)(({ theme }) => ({
 
 function Editor() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     state: { movie },
   } = useLocation();
@@ -64,6 +66,7 @@ function Editor() {
     onSubmit: async (values, { setSubmitting }) => {
       const { data } = await ReviewService.create(values);
       setSubmitting(false);
+      dispatch(fetchAllReviews());
       // TODO: handle notification
       // eslint-disable-next-line no-alert
       alert('created successfully');
