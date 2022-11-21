@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   * {
-      margin: 0px;
+      margin: 0;
       padding: 0;
     }
 
@@ -18,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
   body,
   #root,
   .App {
-    height: 100%;
+    min-height: 100%;
   }
 
   a {

@@ -11,19 +11,21 @@ import { logout } from '../../redux/slices/user';
 
 const Container = styled.header(
   ({ theme, isHomePage }) => `
-  padding: 20px 20px 20px 10px;
-  background-color:  ${
-    isHomePage ? theme.colors.background_gray : theme.colors.background_lightest_grey
-  };
+  background-color: rgba(255,255,255,0.8);
+  padding: 0 30px;
   color: ${isHomePage ? theme.colors.text_light_gray : theme.colors.background_light_purple};
   width: 100%;
   display: flex;
+  position: sticky;
+  top:0;
+  z-index: 999;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  @media (min-width:${theme.breakpoints.largeLaptop}) {
-    padding: 40px 40px 40px 10px;
-}
+  backdrop-filter: blur(20px);
+  border-style: solid;
+  border-color: rgba(0,0,0,0.15);
+  border-width: 0px 0px thin;
   `
 );
 
@@ -61,12 +63,13 @@ export default function NavigationBar() {
       <Box
         sx={{
           width: { xs: '40%', sm: '55%' },
+          padding: '16px',
         }}
       >
-        {isHomePage && <TextField fullWidth id="outlined-basic" label="" variant="outlined" />}
+        <TextField fullWidth id="outlined-basic" label="" variant="outlined" size="small" />
       </Box>
       <UserInfo onClick={handleAuth}>{isLogin ? 'Logout' : 'Sign in'}</UserInfo>
-      <AccountCircleIcon sx={{ fontSize: { sm: 50, lg: 75 }, color: '#D0D0D0' }} />
+      <AccountCircleIcon sx={{ fontSize: { sm: 50, lg: 64 }, color: '#D0D0D0' }} />
     </Container>
   );
 }
