@@ -132,7 +132,7 @@ export default function NavigationBar() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem>
+        <MenuItem onClick={() => navigate('/personal-info')}>
           <Avatar /> Profile
         </MenuItem>
         <Divider />
