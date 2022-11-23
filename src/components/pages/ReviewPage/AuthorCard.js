@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Container from './MovieAndAuthorContainer';
+import AuthorReviews from '../../ReviewColumn/AuthorReviews';
 
 const AuthorContainer = Container;
 
 function AuthorCard({ userId }) {
-  return <AuthorContainer>{userId} This is AuthorCard</AuthorContainer>;
+  return (
+    <AuthorContainer>
+      <AuthorReviews userId={userId} />
+    </AuthorContainer>
+  );
 }
 AuthorCard.propTypes = {
   userId: PropTypes.number.isRequired,

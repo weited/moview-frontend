@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -6,7 +6,7 @@ import MovieCard from '../../components/pages/ReviewPage/MovieCard';
 import AuthorCard from '../../components/pages/ReviewPage/AuthorCard';
 import ReviewContent from '../../components/pages/ReviewPage/ReviewContent';
 import ReviewTitle from '../../components/pages/ReviewPage/ReviewTitle';
-import { cleanCurrent, fetchReviewById } from '../../redux/slices/review';
+import { fetchReviewById } from '../../redux/slices/review';
 
 const Container = styled.div`
   background-color: ${(props) => props.theme.colors.background_lightest_grey};
@@ -34,13 +34,7 @@ const Content = styled.div`
 function Review() {
   const { reviewId } = useParams();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchReviewById(reviewId));
-    return () => {
-      dispatch(cleanCurrent());
-    };
-  }, [reviewId]);
+  dispatch(fetchReviewById(reviewId));
 
   return (
     <Container>

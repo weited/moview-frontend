@@ -1,29 +1,25 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchMovieById } from '../../../redux/slices/movie';
 import Container from './MovieAndAuthorContainer';
+import OtherReviews from '../../ReviewColumn/OtherReviews';
 
 const MovieContainer = Container;
 
-function MovieCard({ movieId }) {
+function MovieCard() {
   const dispatch = useDispatch();
-  useEffect(() => {
-    async function fetchData() {
-      await dispatch(fetchMovieById(movieId)).unwrap();
-    }
-    fetchData();
-  }, []);
 
-  // TO DO: display movieInfo into this component
-  // eslint-disable-next-line no-unused-vars
-  const movieInfo = useSelector((state) => state.movie.movie);
-
-  return <MovieContainer>This is MovieCard</MovieContainer>;
+  return (
+    <MovieContainer>
+      <OtherReviews />
+    </MovieContainer>
+  );
 }
 
-MovieCard.propTypes = {
-  movieId: PropTypes.number.isRequired,
-};
+// MovieCard.propTypes = {
+//   movieId: PropTypes.number.isRequired,
+// };
 
 export default MovieCard;
