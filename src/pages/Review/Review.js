@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import Skeleton from '@mui/material/Skeleton';
 import MovieCard from '../../components/pages/ReviewPage/MovieCard';
 import AuthorCard from '../../components/pages/ReviewPage/AuthorCard';
 import ReviewContent from '../../components/pages/ReviewPage/ReviewContent';
 import ReviewTitle from '../../components/pages/ReviewPage/ReviewTitle';
 import { fetchReviewById } from '../../redux/slices/review';
+import ReviewService from '../../service/review';
 
 const Container = styled.div`
   background-color: ${(props) => props.theme.colors.background_lightest_grey};
   display: flex;
   justify-content: center;
+  height: 100%;
   @media (min-width: ${(props) => props.theme.breakpoints.tablet}) {
   }
 `;
@@ -34,21 +37,38 @@ const Content = styled.div`
 function Review() {
   const { reviewId } = useParams();
   const dispatch = useDispatch();
+  const [isLiked, setIsLiked] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchLiked = useCallback(async () => {
+    setLoading(true);
+    const { data } = await ReviewService.reactions(reviewId);
+    setIsLiked(data.like);
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    fetchLiked();
+  }, []);
 
   useEffect(() => {
     dispatch(fetchReviewById(reviewId));
-  }, []);
+  }, [isLiked]);
 
   return (
     <Container>
-      <CenterWrapper>
-        <ReviewTitle />
-        <Content>
-          <MovieCard movieId={1} />
-          <ReviewContent />
-          <AuthorCard userId={1} />
-        </Content>
-      </CenterWrapper>
+      {loading ? (
+        <Skeleton variant="rounded" animation="wave" width="100%" height="100%" />
+      ) : (
+        <CenterWrapper>
+          <ReviewTitle isLiked={isLiked} setIsLiked={setIsLiked} fetchLiked={fetchLiked} />
+          <Content>
+            <MovieCard movieId={1} />
+            <ReviewContent />
+            <AuthorCard userId={1} />
+          </Content>
+        </CenterWrapper>
+      )}
     </Container>
   );
 }

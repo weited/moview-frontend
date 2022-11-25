@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Grid from '@mui/material/Unstable_Grid2';
+import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import StarIcon from '@mui/icons-material/Star';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+// import StarIcon from '@mui/icons-material/Star';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCurrentReview } from '../../../redux/slices/review';
 import { updateMovieId } from '../../../redux/slices/movie';
+import ReviewService from '../../../service/review';
 
 const Container = styled.div`
   display: flex;
@@ -47,13 +50,11 @@ const IconGroup = styled.span`
   }
 `;
 
-// TO DO: tags should come from redux and backend
-// const TAG_LIST = ['Tag1', 'Tag2', 'Tag3', 'Tag4'];
-
-function ReviewTitle() {
+function ReviewTitle({ isLiked, setIsLiked }) {
   const dispatch = useDispatch();
+  const { isLogin } = useSelector((state) => state.user);
   const review = useSelector(selectCurrentReview);
-  const { title, tagList, movie } = review || {};
+  const { id, title, tagList, movie, likesCount } = review || {};
 
   useEffect(() => {
     if (movie) {
@@ -62,18 +63,52 @@ function ReviewTitle() {
     return () => dispatch(updateMovieId(null));
   }, [review]);
 
+  const handleLike = async () => {
+    if (!isLogin) {
+      // eslint-disable-next-line no-alert
+      alert('Please login');
+      return;
+    }
+    if (isLiked) {
+      try {
+        const { status } = await ReviewService.dislikeReview(id);
+        if (status === 204) {
+          setIsLiked(false);
+        }
+      } catch (e) {
+        // TODO
+      }
+    } else {
+      try {
+        const { status } = await ReviewService.likeReview(id);
+        if (status === 201) {
+          setIsLiked(true);
+        }
+      } catch (e) {
+        // TODO
+      }
+    }
+  };
+
   return (
     <Container>
       <Title> {title}</Title>
       <SubTitle>
         <Grid>{tagList && tagList.map((tag) => <Tag key={tag.id}>#{tag.name} </Tag>)}</Grid>
-
-        <IconGroup>
-          <FavoriteIcon sx={{ fontSize: { sm: 15, lg: 30 }, color: 'red' }} />
-          20
-          <StarIcon sx={{ fontSize: { sm: 15, lg: 30 }, color: 'yellow', marginLeft: '10px' }} />
-          30
-        </IconGroup>
+        {isLiked == null ? null : (
+          <IconGroup>
+            <IconButton onClick={handleLike}>
+              {isLiked ? (
+                <FavoriteIcon sx={{ fontSize: { sm: 15, lg: 30 }, color: 'red' }} />
+              ) : (
+                <FavoriteBorderIcon sx={{ fontSize: { sm: 15, lg: 30 } }} />
+              )}
+            </IconButton>
+            {likesCount}
+            {/* <StarIcon sx={{ fontSize: { sm: 15, lg: 30 }, color: 'yellow', marginLeft: '10px' }} />
+            30 */}
+          </IconGroup>
+        )}
       </SubTitle>
     </Container>
   );

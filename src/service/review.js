@@ -17,6 +17,12 @@ class ReviewService {
   }
 
   static delete = (reviewId) => http.delete(`/posts/${reviewId}`);
+
+  static reactions = (reviewId) => http.get(`/posts/${reviewId}/reactions`);
+
+  static likeReview = (reviewId) => http.post(`/posts/${reviewId}/like`);
+
+  static dislikeReview = (reviewId) => http.delete(`/posts/${reviewId}/dislike`);
 }
 
 export default ReviewService;

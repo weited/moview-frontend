@@ -18,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
   body,
   #root,
   .App {
-    min-height: 100%;
+    height: 100%;
   }
 
   a {
