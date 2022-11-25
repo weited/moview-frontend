@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Skeleton from '@mui/material/Skeleton';
 import MovieCard from '../../components/pages/ReviewPage/MovieCard';
@@ -37,6 +37,7 @@ const Content = styled.div`
 function Review() {
   const { reviewId } = useParams();
   const dispatch = useDispatch();
+  const { isLogin } = useSelector((state) => state.user);
   const [isLiked, setIsLiked] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -50,6 +51,12 @@ function Review() {
   useEffect(() => {
     fetchLiked();
   }, []);
+
+  useEffect(() => {
+    if (!isLogin) {
+      setIsLiked(false);
+    }
+  }, [isLogin]);
 
   useEffect(() => {
     dispatch(fetchReviewById(reviewId));
