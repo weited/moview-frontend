@@ -9,6 +9,7 @@ const initialState = {
   currentGenre: 'All',
   movie: {},
   genreList: [],
+  idToCreateReview: null,
   status: IDLE,
   error: null,
 };
@@ -39,6 +40,9 @@ export const movieSlice = createSlice({
   name: 'movie',
   initialState,
   reducers: {
+    updateMovieId: (state, { payload }) => {
+      state.idToCreateReview = payload;
+    },
     filterByGenre: (state, { payload }) => {
       state.currentGenre = payload;
       if (payload === 'All') {
@@ -101,10 +105,11 @@ export const movieSlice = createSlice({
   },
 });
 
-export const { filterByGenre, changeGenre } = movieSlice.actions;
+export const { updateMovieId, filterByGenre, changeGenre } = movieSlice.actions;
 
 export const selectMovie = (state) => state.movie.movieList;
 export const selectGenre = (state) => state.movie.genreList;
 export const selectGenreMovies = (state) => state.movie.genreMovieList;
+export const selectIdToCreateReview = (state) => state.movie.idToCreateReview;
 
 export default movieSlice.reducer;

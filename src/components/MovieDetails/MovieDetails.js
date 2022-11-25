@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import MovieService from '../../service/movie';
+import { updateMovieId } from '../../redux/slices/movie';
 
 const Div = styled.div``;
 const H2 = styled.h2``;
@@ -42,22 +43,6 @@ const Heading = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
-const Button = styled.button(
-  ({ theme }) => `
-    display: flex inline;
-    align-items: center;
-    background-color: ${theme.colors.background_purple};
-    border: 0px;
-    border-radius: 20px;
-    width: 20%;
-    height: 3%;
-    padding: 5px;
-    margin: 20px;
-    color: white;
-    cursor: pointer;
-  `
-);
 
 const Image = styled.img`
   width: 170px;
@@ -107,8 +92,7 @@ const Tags = styled.div(
 
 function MovieDetails() {
   const { movieId } = useParams();
-  const navigate = useNavigate();
-  const isLogin = useSelector((state) => state.user.isLogin);
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [movie, setMovie] = useState();
 
@@ -119,18 +103,10 @@ function MovieDetails() {
       setMovie(res.data);
       setLoading(false);
     };
+    dispatch(updateMovieId(movieId));
     fetchMovieById();
+    return () => dispatch(updateMovieId(null));
   }, [movieId]);
-
-  const handleClick = () => {
-    if (!isLogin) {
-      // TODO: notification
-      // eslint-disable-next-line no-alert
-      alert('please login');
-      return;
-    }
-    navigate('new-review', { state: { movie } });
-  };
 
   if (loading) {
     return <>Loading...</>;
@@ -150,7 +126,6 @@ function MovieDetails() {
             <Heading>
               <H2>{name}</H2>
               <H2>{rating}</H2>
-              <Button onClick={handleClick}>Create My Review</Button>
             </Heading>
             <H3>
               {genre.name} | {year}

@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -9,11 +10,13 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
+import MuiButton from '@mui/material/Button';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import { logout } from '../../redux/slices/user';
+import { selectIdToCreateReview } from '../../redux/slices/movie';
 
 const Container = styled.header(
   ({ theme, isHomePage }) => `
@@ -44,15 +47,30 @@ const UserInfo = styled.span(
 }`
 );
 
+const Button = styled(MuiButton)(({ theme }) => ({
+  backgroundColor: theme.colors.button_purple,
+  borderRadius: '10px',
+  '&:hover': {
+    backgroundColor: theme.colors.button_purple,
+    opacity: 0.8,
+  },
+}));
+
 export default function NavigationBar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const path = useLocation();
 
+  const movieId = useSelector(selectIdToCreateReview);
   const user = useSelector((state) => state.user);
   const { isLogin } = user;
 
   const isHomePage = path.pathname === '/';
+
+  const isCreateReview =
+    path.pathname.startsWith('/movie/') || path.pathname.startsWith('/review/');
+
+  const isInCreateReview = path.pathname.includes('/new-review');
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -78,6 +96,22 @@ export default function NavigationBar() {
     dispatch(logout());
   };
 
+  const handleCreateReview = () => {
+    if (!isLogin) {
+      alert('Please login to create a review');
+      return;
+    }
+    if (!isCreateReview) {
+      alert('Please select a movie or review to create');
+      return;
+    }
+
+    if (isInCreateReview) {
+      return;
+    }
+    navigate(`/movie/${movieId}/new-review`);
+  };
+
   return (
     <Container isHomePage={isHomePage}>
       <Logo />
@@ -89,6 +123,9 @@ export default function NavigationBar() {
       >
         <TextField fullWidth id="outlined-basic" label="" variant="outlined" size="small" />
       </Box>
+      <Button variant="contained" onClick={handleCreateReview} disabled={isInCreateReview}>
+        Create Review
+      </Button>
       {!isLogin && <UserInfo onClick={handleAuth}>Sign in</UserInfo>}
       {isLogin && (
         <AccountCircleIcon
