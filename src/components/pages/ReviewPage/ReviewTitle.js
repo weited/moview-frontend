@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Grid from '@mui/material/Unstable_Grid2';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectCurrentReview } from '../../../redux/slices/review';
+import { updateMovieId } from '../../../redux/slices/movie';
 
 const Container = styled.div`
   display: flex;
@@ -47,19 +48,25 @@ const IconGroup = styled.span`
 `;
 
 // TO DO: tags should come from redux and backend
-const TAG_LIST = ['Tag1', 'Tag2', 'Tag3', 'Tag4'];
+// const TAG_LIST = ['Tag1', 'Tag2', 'Tag3', 'Tag4'];
 
 function ReviewTitle() {
+  const dispatch = useDispatch();
   const review = useSelector(selectCurrentReview);
-  const { title } = review || {};
+  const { title, tagList, movie } = review || {};
+
+  useEffect(() => {
+    dispatch(updateMovieId(movie.id));
+    return () => dispatch(updateMovieId(null));
+  }, [review]);
 
   return (
     <Container>
       <Title> {title}</Title>
       <SubTitle>
         <Grid>
-          {TAG_LIST.map((tag) => (
-            <Tag key={tag}>#{tag} </Tag>
+          {tagList.map((tag) => (
+            <Tag key={tag.id}>#{tag} </Tag>
           ))}
         </Grid>
 

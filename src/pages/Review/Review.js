@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -34,7 +34,10 @@ const Content = styled.div`
 function Review() {
   const { reviewId } = useParams();
   const dispatch = useDispatch();
-  dispatch(fetchReviewById(reviewId));
+
+  useEffect(() => {
+    dispatch(fetchReviewById(reviewId));
+  }, []);
 
   return (
     <Container>

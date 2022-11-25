@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -44,12 +44,9 @@ const LoadingButton = styled(MuiLoadingButton)(({ theme }) => ({
   },
 }));
 
-function Editor() {
+function Editor({ movie }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {
-    state: { movie },
-  } = useLocation();
 
   const { id, name } = movie;
   const userInfo = useSelector(selectCurrentUser);
