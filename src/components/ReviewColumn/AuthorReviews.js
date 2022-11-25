@@ -48,7 +48,7 @@ function AuthorReviews({ userId }) {
                     width="80px"
                     image={movie.posterImgUrl}
                     alt="pic"
-                    objectFit="cover"
+                    object-fit="cover"
                     sx={{ marginTop: 1, alignItems: 'center' }}
                   />
                   <Typography sx={{ marginTop: 1, marginLeft: 2 }}>

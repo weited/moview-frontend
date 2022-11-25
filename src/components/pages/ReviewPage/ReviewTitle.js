@@ -56,7 +56,9 @@ function ReviewTitle() {
   const { title, tagList, movie } = review || {};
 
   useEffect(() => {
-    dispatch(updateMovieId(movie.id));
+    if (movie) {
+      dispatch(updateMovieId(movie.id));
+    }
     return () => dispatch(updateMovieId(null));
   }, [review]);
 
@@ -64,11 +66,7 @@ function ReviewTitle() {
     <Container>
       <Title> {title}</Title>
       <SubTitle>
-        <Grid>
-          {tagList.map((tag) => (
-            <Tag key={tag.id}>#{tag} </Tag>
-          ))}
-        </Grid>
+        <Grid>{tagList && tagList.map((tag) => <Tag key={tag.id}>#{tag.name} </Tag>)}</Grid>
 
         <IconGroup>
           <FavoriteIcon sx={{ fontSize: { sm: 15, lg: 30 }, color: 'red' }} />
