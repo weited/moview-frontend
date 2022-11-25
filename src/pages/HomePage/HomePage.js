@@ -7,7 +7,7 @@ import TrendingTag from '../../components/TrendingTag/TrendingTag';
 import TagService from '../../service/tag';
 
 const Main = styled('main')({
-  height: '100%',
+  // height: '100%',
 });
 
 const TrendingTagAndReview = styled.div`
